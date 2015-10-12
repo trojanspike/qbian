@@ -1,0 +1,1 @@
+KERNEL=="gpio*", MODE:="0660", GROUP:="gpio"

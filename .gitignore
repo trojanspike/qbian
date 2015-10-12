@@ -1,0 +1,8 @@
+Provision/disks/**/*
+Provision/minibian/*.img
+!Provision/disks/DISK-HERE.txt
+!Provision/disks/default/config.qemu
+Provision/disks/default/2015-02-18-wheezy-minibian.img
+Provision/minibian/*.tar
+
+.vagrant/

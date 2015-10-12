@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+# Package
+package=$( basename $0 );
+################
+# http://stackoverflow.com/questions/630372/determine-the-path-of-the-executing-bash-script
+BASE="`dirname \"$0\"`"
+BASE=$( cd "$BASE/../" && pwd )
+if [ -z "$BASE" ] ; then
+  exit 1
+fi
+
+QBIAN_DISK_DIR="$BASE/Provision/disks"
+QBIAN_MINIBIAN_DIR="$BASE/Provision/minibian"
+export "BASE=$BASE"
+export "QBIAN_DISK_DIR=$QBIAN_DISK_DIR"
+export "QBIAN_MINIBIAN_DIR=$QBIAN_MINIBIAN_DIR"
+export "QBASE=$BASE/qemu_boot"
+while test $# -gt 0; do
+        case "$1" in
+                -h|--help)
+                echo "$package - tool-set for running minibian with qemu & provisioning images"
+                echo " "
+                echo "$package <application> [arguments]"
+                echo " "
+                echo "options:"
+                echo "$package --create-default null, \"creates a default image using the injects/default\""
+                echo "$package --create-img <NAME> <CONFIG> <ROOT_INJECT_DIR> <RESIZE:{optional}> <BASE_IMAGE:{optional}>, \"new image\""
+                echo "$package --run <NAME> <SSH_PORT>, \"run an image with qemu\""
+                echo "$package --list null, \"list available images\""
+                echo "$package --remove <IMG_NAME> # remove an image"
+                exit 0
+                ;;
+                --run)
+                  if [ $# -eq 2 ]; then
+                    NAME=$1
+                    SSH_PORT=$2
+                    CONFIG=$(cat $QBIAN_DISK_DIR/$NAME/config.qemu)
+                    $QBASE/start.sh $QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img $SSH_PORT "$CONFIG"
+                  else
+                    echo "Not enough params"
+                    echo "$package --run <NAME> <SSH_PORT>"
+                  fi
+                  shift
+                  ;;
+                --sd)
+                  exit 0 # TODO
+                  shift
+                  if [ ! $# -eq 3 ]; then
+                  echo "Error , not enough params"
+                  exit 1
+                  fi
+
+                  DEVICE=$1
+                  SSH=$2
+                  CONFIG=$3
+                  echo $#
+                  clear && echo "Launching qemu with sd $DEVICE"
+                  $QBASE/start.sh $DEVICE $SSH "$CONFIG"
+                  shift
+                  ;;
+                --list)
+                      echo "--------------------------------------|"
+                  for i in $( ls -d $QBIAN_DISK_DIR/*/ );
+                    do
+                      echo $(basename $i)
+                      echo $(cat $QBIAN_DISK_DIR/$(basename $i)/config.qemu)
+                      echo "--------------------------------------|"
+                    done
+                  shift
+                  ;;
+                --create-img)
+                  if [ "$#" -eq 4 ] || [ "$#" -eq 5 ] || [ "$#" -eq 6 ]; then
+                  NAME=$2 # name
+                  CONFIG=$3 # config
+                  INJECT=$4 # injectDir
+                  RESIZE=$5 # resize
+                  BASE_IMAGE=$6 # base img path
+                  # TODO -> ensure INJECT folder has necessary folder structure , skel , ssh etc
+                    if [ ! -z "$BASE_IMAGE" ]; then
+                      export BASE_IMAGE="$QBIAN_DISK_DIR/$BASE_IMAGE/2015-02-18-wheezy-minibian.img"
+                    fi
+                    if [ ! -d "$QBIAN_DISK_DIR/$NAME" ]; then
+                      mkdir -p $QBIAN_DISK_DIR/$NAME/ssh && echo "$CONFIG" > $QBIAN_DISK_DIR/$NAME/config.qemu && \
+                      $QBIAN_MINIBIAN_DIR/minibian-qemu.sh $NAME "$INJECT" "$RESIZE"
+                    else
+                      echo "Image \"$NAME\" is already available, use $ qbian --run $NAME <SSH>"
+                      echo $QBIAN_DISK_DIR/$NAME
+                    fi
+                  else
+                    echo "Not enough Params"
+                    echo "$package --create-img <NAME> <CONFIG> <ROOT_INJECT_DIR> <RESIZE:{optional}> <BASE_IMAGE:{optional}>"
+                    echo "root/Provision.sh is also required"
+                  fi
+                  exit 0
+                        ;;
+                  --remove)
+                    if [ $# -eq 2 ] && [ -d "$QBIAN_DISK_DIR/$2" ]; then
+                      rm -Rfv $QBIAN_DISK_DIR/$2
+                    else
+                      echo "Error --remove , $2 not found"
+                    fi
+                    shift
+                    ;;
+                  --create-default)
+                    if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
+                      $BASE/bin/qbian --create-img default "-redir tcp:1374::1374" $BASE/injects/default 1G
+                    else
+                      echo "image \"default\" already available, use $ $package --run-img default 5522"
+                    fi
+                    shift
+                    ;;
+                  --create-sd)
+                    exit 0 # TODO
+                    if test $# -eq 4; then
+                      echo $#
+                      echo $0
+                      echo $1
+                      echo $2
+                      echo $3
+                      echo $4
+                      echo "Create"
+                    else
+                      echo "Not enough Params"
+                    fi
+                    shift
+                  ;;
+                --dd)
+                    exit 0 # TODO
+                  if [ ! $# -eq 3 ]; then
+                    echo "Not enough params"
+                    echo "$package --dd <NAME> <DEVICE|IMAGE>"
+                    echo "$package --dd default /dev/sdc"
+                    echo "$package --dd default ~/Path/tp/create/image.img"
+                    exit 1
+                  fi
+                  if [ -f $QBIAN_DISK_DIR/$2/2015-02-18-wheezy-minibian.img ]; then
+                    echo "Dump disk to sd card $2 $3"
+                    sudo dd if=$QBIAN_DISK_DIR/$2/2015-02-18-wheezy-minibian.img of=$3 bs=4M
+                  else
+                    echo "ERROR : No minibian image found"
+                  fi
+                  break
+                  ;;
+                --clear)
+                    exit 0 # TODO
+                  if test $# -gt 1; then
+                    echo $2
+                    echo "Clear"
+                  fi
+                  shift
+                  ;;
+                *)
+                  echo ""
+                  break
+                ;;
+        esac
+done
