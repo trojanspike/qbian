@@ -80,7 +80,7 @@ while test $# -gt 0; do
                       export BASE_IMAGE="$QBIAN_DISK_DIR/$BASE_IMAGE/2015-02-18-wheezy-minibian.img"
                     fi
                     if [ ! -d "$QBIAN_DISK_DIR/$NAME" ]; then
-                      mkdir -p $QBIAN_DISK_DIR/$NAME/ssh && echo "$CONFIG" > $QBIAN_DISK_DIR/$NAME/config.qemu && \
+                      echo "$CONFIG" > $QBIAN_DISK_DIR/$NAME/config.qemu && \
                       $QBIAN_MINIBIAN_DIR/minibian-qemu.sh $NAME "$INJECT" "$RESIZE"
                     else
                       echo "Image \"$NAME\" is already available, use $ qbian --run $NAME <SSH>"
@@ -103,6 +103,8 @@ while test $# -gt 0; do
                     ;;
                   --create-default)
                     if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
+                      mkdir -p $QBIAN_DISK_DIR/ssh && \
+                      ssh-keygen -t rsa -f $QBIAN_DISK_DIR/ssh/ -N "" -C "your_email@youremail.com" && \
                       $BASE/bin/qbian --create-img default "-redir tcp:1374::1374" $BASE/injects/default 1G
                     else
                       echo "image \"default\" already available, use $ $package --run-img default 5522"

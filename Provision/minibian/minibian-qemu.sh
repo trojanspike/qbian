@@ -58,7 +58,6 @@ function doProvision(){
 	# unlink $QBIAN_MINIBIAN_DIR/minibian.gz.tar && \
 	## >>>>>>>>>>>>>>>>> $2 ?
  # Need to be within the directory for kpartx to mount and umount without errors
-	cd $QBIAN_DISK_DIR/$NAME/ && ssh-keygen -t rsa -f ./ssh/$NAME -N "" -C "your_email@youremail.com" && \
 	qemu-img resize $QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img +$RESIZE && ensureUmount && sudo sync && \
 	## kpartx1
 	sudo kpartx -va ./2015-02-18-wheezy-minibian.img && sleep3 && \
@@ -69,7 +68,9 @@ function doProvision(){
 	sudo mount /dev/mapper/loop0p2 $QBIAN_DISK_DIR/$NAME/root_mount && sleep3 && \
 	# Skel
 	sudo rsync -avz $INJECT/* $QBIAN_DISK_DIR/$NAME/root_mount/ && \
-	sudo rsync -avz $QBIAN_DISK_DIR/$NAME/ssh/* $QBIAN_DISK_DIR/$NAME/root_mount/etc/skel/.ssh/ && \
+	sudo rsync -avz $QBIAN_DISK_DIR/ssh/* $QBIAN_DISK_DIR/$NAME/root_mount/etc/skel/.ssh/ && \
+	# Clear out the new image ssh keys , this might be an import from a previously created image
+	# i.e $ qbian --create-img docker "-redir tcp:1374::1374" ~/path/to/inject/ 400M default
 	sudo chown -R root:root $QBIAN_DISK_DIR/$NAME/root_mount/* && \
 	# Provision executable
 	sudo chmod +x $QBIAN_DISK_DIR/$NAME/root_mount/root/Provision.sh &&  \
