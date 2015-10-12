@@ -8,7 +8,7 @@ app.use((req, res, next)=>{
    res.setHeader("Content-Type", "text/html");
    if(getResult == null){
      async.parallel([function(callb){
-        exec("i2cdetect -y 1", function(err, result){
+        exec("gpio i2cdetect", function(err, result){
            callb(null, result);
         });
      }, function(callb){
@@ -19,8 +19,16 @@ app.use((req, res, next)=>{
          exec("gpio readall", function(err, result){
             callb(null, result);
          });
+     }, function(callb){
+         exec("uname -a", function(err, result){
+            callb(null, result);
+         });
+     }, function(callb){
+         exec("sudo ifconfig", function(err, result){
+            callb(null, result);
+         });
      }], function(err, data){
-       getResult = "<pre><h3>i2c</h3>\n"+data[0]+"<h3>Nodejs forver</h3>\n"+data[1]+"<h3>gpio readall</h3>\n"+data[2]+"</pre>";
+       getResult = "<pre><h3>i2c</h3>\n"+data[0]+"<h3>Nodejs forver</h3>\n"+data[1]+"<h3>gpio readall</h3>\n"+data[2]+"<h3>uname</h3>\n"+data[3]+"<h3>ifconfig</h3>\n"+data[4]+"</pre>";
        req.RESULT = getResult;
        next();
      });
@@ -55,4 +63,3 @@ app.use(function(err, req, res, next){
 app.listen(1374);
 
 console.log("Listening on port 1374")
-
