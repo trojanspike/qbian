@@ -3,3 +3,9 @@ $QBIAN_DISK_DIR
 $QBIAN_MINIBIAN_DIR
 
 
+Provisioning :
+Files required in provision folder
+/root/Provision.sh
+/etc/skel/
+
+@ TODO -> checks folder and files are avail , else either create or error out

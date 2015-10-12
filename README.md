@@ -45,3 +45,9 @@ _The provision script will take a little while to complete. Add a user & passwor
 ---
 
 #### TODO:
+
+* Output stdout to log file /imageName/output.log
+* Output stderr to log file /imageName/error.log # hopefully none
+* Quiet down with minibian-qemu.sh scritp , clear , echo info to user & put to log file
+* Checks folder and files are avail , else either create or error out
+*

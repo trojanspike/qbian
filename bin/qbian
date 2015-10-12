@@ -31,9 +31,9 @@ while test $# -gt 0; do
                 exit 0
                 ;;
                 --run)
-                  if [ $# -eq 2 ]; then
-                    NAME=$1
-                    SSH_PORT=$2
+                  if [ $# -eq 3 ]; then
+                    NAME=$2
+                    SSH_PORT=$3
                     CONFIG=$(cat $QBIAN_DISK_DIR/$NAME/config.qemu)
                     $QBASE/start.sh $QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img $SSH_PORT "$CONFIG"
                   else
