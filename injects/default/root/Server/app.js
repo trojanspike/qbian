@@ -27,8 +27,12 @@ app.use((req, res, next)=>{
          exec("sudo ifconfig", function(err, result){
             callb(null, result);
          });
+     }, function(callb){
+         exec("lsusb", function(err, result){
+            callb(null, result);
+         });
      }], function(err, data){
-       getResult = "<pre><h3>i2c</h3>\n"+data[0]+"<h3>Nodejs forver</h3>\n"+data[1]+"<h3>gpio readall</h3>\n"+data[2]+"<h3>uname</h3>\n"+data[3]+"<h3>ifconfig</h3>\n"+data[4]+"</pre>";
+       getResult = "<pre><h3>i2c</h3>\n"+data[0]+"<h3>Nodejs forver</h3>\n"+data[1]+"<h3>gpio readall</h3>\n"+data[2]+"<h3>uname</h3>\n"+data[3]+"<h3>ifconfig</h3>\n"+data[4]+"<h3>lsusb</h3>\n"+data[5]+"</pre>";
        req.RESULT = getResult;
        next();
      });
