@@ -26,7 +26,7 @@ while test $# -gt 0; do
                 echo " "
                 echo "options:"
                 echo "$package --create-default null, \"creates a default image using the injects/default\""
-                echo "$package --create-img <NAME> <CONFIG> <ROOT_INJECT_DIR> <RESIZE:{optional}> <BASE_IMAGE:{optional}>, \"new image\""
+                echo "$package --create-img <NAME> <CONFIG> <ROOT_INJECT_DIR> <RESIZE:{optional}>"
                 echo "$package --run <NAME> <SSH_PORT>, \"run an image with qemu\""
                 echo "$package --list null, \"list available images\""
                 echo "$package --remove <IMG_NAME> # remove an image"
@@ -71,12 +71,11 @@ while test $# -gt 0; do
                   shift
                   ;;
                 --create-img)
-                  if [ "$#" -eq 4 ] || [ "$#" -eq 5 ] || [ "$#" -eq 6 ]; then
+                  if [ "$#" -eq 4 ] || [ "$#" -eq 5 ]; then
                   NAME=$2 # name
                   CONFIG=$3 # config
-                  INJECT=$4 # injectDir
-                  RESIZE=$5 # resize
-                  BASE_IMAGE=$6 # base img path
+                  RESIZE=$4 # resize
+                  BASE_IMAGE=$5 # base img path
                   # TODO -> ensure INJECT folder has necessary folder structure , skel , ssh etc
                     if [ ! -z "$BASE_IMAGE" ]; then
                       export BASE_IMAGE="$QBIAN_DISK_DIR/$BASE_IMAGE/2015-02-18-wheezy-minibian.img"
@@ -84,14 +83,14 @@ while test $# -gt 0; do
                     if [ ! -d "$QBIAN_DISK_DIR/$NAME" ]; then
                       mkdir -p $QBIAN_DISK_DIR/$NAME && \
                       echo "$CONFIG" > $QBIAN_DISK_DIR/$NAME/config.qemu && \
-                      $QBIAN_MINIBIAN_DIR/minibian-qemu.sh $NAME "$INJECT" "$RESIZE"
+                      $QBIAN_MINIBIAN_DIR/minibian-qemu.sh $NAME "$BASE/injects/$NAME" "$RESIZE"
                     else
                       echo "Image \"$NAME\" is already available, use $ qbian --run $NAME <SSH>"
                       echo $QBIAN_DISK_DIR/$NAME
                     fi
                   else
                     echo "Not enough Params"
-                    echo "$package --create-img <NAME> <CONFIG> <ROOT_INJECT_DIR> <RESIZE:{optional}> <BASE_IMAGE:{optional}>"
+                    echo "$package --create-img <NAME> <CONFIG> <ROOT_INJECT_DIR> <RESIZE:{optional}>"
                     echo "root/Provision.sh is also required"
                   fi
                   exit 0
@@ -108,7 +107,7 @@ while test $# -gt 0; do
                     if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
                       ssh-keygen -t rsa -f $PROVISION/ssh/qbianssh -N "" -C "your_email@youremail.com" && \
                       cat $PROVISION/ssh/qbianssh.pub > $PROVISION/ssh/authorized_keys && \
-                      $BASE/bin/qbian --create-img default "-redir tcp:1374::1374" $BASE/injects/default 1G
+                      $BASE/bin/qbian --create-img default "-redir tcp:1374::1374" default 1G
                     else
                       echo "image \"default\" already available, use $ $package --run-img default 5522"
                     fi
