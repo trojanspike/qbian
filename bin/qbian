@@ -106,8 +106,8 @@ while test $# -gt 0; do
                     ;;
                   --create-default)
                     if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
-                      mkdir -p $QBIAN_DISK_DIR/ssh && \
                       ssh-keygen -t rsa -f $PROVISION/ssh/qbianssh -N "" -C "your_email@youremail.com" && \
+                      cat $PROVISION/ssh/qbianssh.pub > $PROVISION/ssh/authorized_keys && \
                       $BASE/bin/qbian --create-img default "-redir tcp:1374::1374" $BASE/injects/default 1G
                     else
                       echo "image \"default\" already available, use $ $package --run-img default 5522"
