@@ -53,6 +53,7 @@ function finish(){
 
 
 function doProvision(){
+	cd $QBIAN_DISK_DIR/$NAME && \
 	# tar -zxvf $QBIAN_MINIBIAN_DIR/minibian.gz.tar -C $QBIAN_DISK_DIR/$NAME && \
 	rsync -avz $BASE_IMAGE $QBIAN_DISK_DIR/$NAME && \
 	# unlink $QBIAN_MINIBIAN_DIR/minibian.gz.tar && \
@@ -68,7 +69,7 @@ function doProvision(){
 	sudo mount /dev/mapper/loop0p2 $QBIAN_DISK_DIR/$NAME/root_mount && sleep3 && \
 	# Skel
 	sudo rsync -avz $INJECT/* $QBIAN_DISK_DIR/$NAME/root_mount/ && \
-	sudo rsync -avz $QBIAN_DISK_DIR/ssh/* $QBIAN_DISK_DIR/$NAME/root_mount/etc/skel/.ssh/ && \
+	sudo rsync -avz $PROVISION/ssh/* $QBIAN_DISK_DIR/$NAME/root_mount/etc/skel/.ssh/ && \
 	# Clear out the new image ssh keys , this might be an import from a previously created image
 	# i.e $ qbian --create-img docker "-redir tcp:1374::1374" ~/path/to/inject/ 400M default
 	sudo chown -R root:root $QBIAN_DISK_DIR/$NAME/root_mount/* && \
