@@ -5,6 +5,6 @@ Provision/minibian/*.img
 Provision/disks/default/2015-02-18-wheezy-minibian.img
 Provision/minibian/*.tar
 
-Provision/ssh/
+Provision/ssh/*
 !Provision/ssh/.gitindex
 .vagrant/
