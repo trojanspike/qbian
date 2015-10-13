@@ -1,14 +1,9 @@
 #!/usr/bin/env bash
 echo " Running provision for qemu environment "
 
-function qemuFn(){
-  if [ ! -f /root/_Provisioning/provision-qemu.complete ]; then
-    /root/_Provisioning/provision-qemu
-  fi
-}
 
+apt-get update && apt-get -f install -y && apt-get upgrade -y && apt-get -f install -y && \
 #@ Needs to be orig /boot -> do from qbian ??
 echo "Editing /boot/config.txt - note device is required" && \
 echo -e "dtparam=i2c1=on\ndtparam=i2c_arm=on\ntree=off" >> /boot/config.txt && \
-cat /etc/network/interfaces.static > /etc/network/interfaces && \
-rpi-serial-console disable && qemuFn && reboot
+rpi-serial-console disable
