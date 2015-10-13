@@ -29,13 +29,13 @@ fi
 # @ set timezone @
 ## ln -f /usr/share/zoneinfo/Europe/London /etc/localtime && \
 #?? service networking reload ??
-apt-get update && apt-get -f install -y && apt-get upgrade -y && \
+apt-get update && \
 # https://www.abelectronics.co.uk/i2c-raspbian-wheezy/info.aspx
 # install debain packages
 # https://www.garron.me/en/linux/visudo-command-sudoers-file-sudo-default-editor.html
 # export VISUAL=vim; visudo
 #
-apt-get install minicom i2c-tools libi2c-dev resolvconf curl git-core vim iptables nano build-essential libstdc++6 gcc-4.8 g++-4.8 python python-smbus python-dev python3-dev python-pip -y && \
+apt-get install minicom i2c-tools usbutils libi2c-dev resolvconf curl git-core vim iptables nano build-essential libstdc++6 gcc-4.8 g++-4.8 python python-smbus python-dev python3-dev python-pip -y && \
 apt-get install -y sudo && \
 ## @ install raspi-config ??
 ## Update for node runner
@@ -95,6 +95,8 @@ echo "Installing wiringPi" && \
 #############
 sed -i "s/{USER}/$USER/g" /etc/init.d/app-start.sh && \
 update-rc.d tester.sh defaults && update-rc.d app-start.sh defaults && \
+cat /etc/network/interfaces.static > /etc/network/interfaces && \
+resolvconf -u && \
 echo "Complete : Rebooting -> 5 seconds" && sleep 5 && reboot
 
 # https://www.npmjs.com/package/forever
