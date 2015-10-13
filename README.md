@@ -31,7 +31,7 @@ $ ./Provision.sh
 ```
 _create a new image based on the default img updated_
 ```bash
-$ qbian --create-img updated "-redir tcp:8080::8080" ~/Path/To/Inject/ 1G default # create new images using the default img
+$ qbian --create-img updated "-redir tcp:8080::8080" 1G default # create new images using the default img, Injects/updated folder required
 $ qbian --remove default # delete an image
 ```
 
@@ -50,4 +50,4 @@ _The provision script will take a little while to complete. Add a user & passwor
 * Output stderr to log file /imageName/error.log # hopefully none
 * Quiet down with minibian-qemu.sh scritp , clear , echo info to user & put to log file
 * Checks folder and files are avail , else either create or error out
-*
+* Error Checks in /bin/qbain 
