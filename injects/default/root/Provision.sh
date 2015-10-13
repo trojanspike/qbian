@@ -10,6 +10,11 @@
 ## give $USER PERMS to gpio
 
 chmod +x /root/_Provisioning/*
+if [ -d /sys/class/gpio/ ]; then
+  export "HAS_GPIO=true"
+else
+  export "HAS_GPIO=false"
+fi
 
 if [ -d /sys/class/gpio ] && [ ! -f /root/_Provisioning/provision-device.complete ]; then
   /root/_Provisioning/provision-device && \
