@@ -40,6 +40,8 @@ case "$1" in
         ;;
 esac
 
+# update-rc.d qbian-provision defaults
+#
 # update-rc.d app-start.sh defaults
 # update-rc.d -f app-start.sh remove
 # http://serverfault.com/questions/44400/run-a-shell-script-as-a-different-user
