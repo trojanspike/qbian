@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
-if [ -d /sys/class/gpio/ ]; then
-  export "HAS_GPIO=true" # On real device
+IS_DEVICE=$1
+### Run some logic or run a script
+if [ "$IS_DEVICE" == true ]; then
+  echo "Doing for device"
+  apt-get update && apt-get -f install -y && apt-get upgrade -y && apt-get -f install -y
 else
-  export "HAS_GPIO=false" # On qemu
+  echo "Doing for qemu"
 fi
+
+exit 0
