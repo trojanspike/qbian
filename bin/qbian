@@ -27,12 +27,12 @@ while test $# -gt 0; do
                 echo "options:"
                 echo "$package --create-default null, \"creates a default image using the injects/default\""
                 echo "$package --create-img <NAME> <CONFIG> <ROOT_INJECT_DIR> <RESIZE:{optional}>"
-                echo "$package --run <NAME> <SSH_PORT>, \"run an image with qemu\""
+                echo "$package --run-img <NAME> <SSH_PORT>, \"run an image with qemu\""
                 echo "$package --list null, \"list available images\""
                 echo "$package --remove <IMG_NAME> # remove an image"
                 exit 0
                 ;;
-                --run)
+                --run-img)
                   if [ $# -eq 3 ]; then
                     NAME=$2
                     SSH_PORT=$3
@@ -40,21 +40,20 @@ while test $# -gt 0; do
                     $QBASE/start.sh $QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img $SSH_PORT "$CONFIG"
                   else
                     echo "Not enough params"
-                    echo "$package --run <NAME> <SSH_PORT>"
+                    echo "$package --run-img <NAME> <SSH_PORT>"
                   fi
                   shift
                   ;;
-                --sd)
-                  exit 0 # TODO
-                  shift
+                --run-sd)
                   if [ ! $# -eq 3 ]; then
-                  echo "Error , not enough params"
-                  exit 1
+                    echo "Error , not enough params"
+                    echo "$ qbian --run-sd /dev/sdc 5522 \"config\""
+                    exit 1
                   fi
 
-                  DEVICE=$1
-                  SSH=$2
-                  CONFIG=$3
+                  DEVICE=$2
+                  SSH=$3
+                  CONFIG=$4
                   echo $#
                   clear && echo "Launching qemu with sd $DEVICE"
                   $QBASE/start.sh $DEVICE $SSH "$CONFIG"
@@ -82,6 +81,9 @@ while test $# -gt 0; do
                     fi
                     if [ ! -d "$QBIAN_DISK_DIR/$NAME" ]; then
                       mkdir -p $QBIAN_DISK_DIR/$NAME && \
+                      if [ ! -d $BASE/injects/$NAME ]; then
+                        rsync -avz $BASE/Provision/InjectSkeleton/* $BASE/injects/$NAME
+                      fi
                       echo "$CONFIG" > $QBIAN_DISK_DIR/$NAME/config.qemu && \
                       $QBIAN_MINIBIAN_DIR/minibian-qemu.sh $NAME "$BASE/injects/$NAME" "$RESIZE"
                     else
@@ -90,7 +92,7 @@ while test $# -gt 0; do
                     fi
                   else
                     echo "Not enough Params"
-                    echo "$package --create-img <NAME> <CONFIG> <ROOT_INJECT_DIR> <RESIZE:{optional}>"
+                    echo "$package --create-img <NAME> <CONFIG> <RESIZE:{optional}>"
                     echo "root/Provision.sh is also required"
                   fi
                   exit 0
@@ -107,14 +109,13 @@ while test $# -gt 0; do
                     if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
                       ssh-keygen -t rsa -f $PROVISION/ssh/qbianssh -N "" -C "your_email@youremail.com" && \
                       cat $PROVISION/ssh/qbianssh.pub > $PROVISION/ssh/authorized_keys && \
-                      $BASE/bin/qbian --create-img default "-redir tcp:1374::1374" 1G
+                      $BASE/bin/qbian --create-img default "-redir tcp:1374::1374" 512M
                     else
                       echo "image \"default\" already available, use $ $package --run-img default 5522"
                     fi
                     shift
                     ;;
                   --create-sd)
-                    exit 0 # TODO
                     if test $# -eq 4; then
                       echo $#
                       echo $0
@@ -140,12 +141,34 @@ while test $# -gt 0; do
                   fi
                   if [ -f $QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img ]; then
                     echo "Exporting $NAME to $PATH"
-                    sudo dd if=$QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img of=$PATH bs=4M
+                    /usr/bin/sudo /usr/bin/dd if=$QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img of=$PATH bs=4M
                   else
                     echo "ERROR : No minibian image found"
                   fi
                   break
                   ;;
+                  --import)
+                  PATH=$2
+                  NAME=$3
+                  CONFIG=$4
+                    if [ ! $# -eq 4 ]; then
+                      echo "Not enough params"
+                      echo "$package --import <DEVICE|PATH> <NAME> <CONFIG>"
+                      echo "$package --import /dev/sdc imported \"-redir tcp:1374::1374\""
+                      echo "$package --import ~/Path/tp/create/image.img imported \"-redir tcp:1374::1374\""
+                      exit 1
+                    fi
+                    if [ ! -d $QBIAN_DISK_DIR/$NAME ]; then
+                      /usr/bin/mkdir $QBIAN_DISK_DIR/$NAME && \
+                      echo "$CONFIG" > $QBIAN_DISK_DIR/$NAME/config.qemu && \
+                      echo "Importing $NAME to $PATH" && \
+                      /usr/bin/sudo /usr/bin/dd if=$PATH of=$QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img bs=4M && \
+                      echo "Import complete - please chown the imported image"
+                    else
+                      echo "ERROR : image alread abailable"
+                    fi
+                    break
+                    ;;
                 --clear)
                   rand=$RANDOM
                   mv $QBIAN_DISK_DIR/DISK-HERE.txt $BASE/$rand && \
