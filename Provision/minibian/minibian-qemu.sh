@@ -4,7 +4,7 @@
 
 NAME=$1
 INJECT=$2
-RESIZE=300M
+RESIZE=0M
 if [ ! -z $3 ]; then
 	RESIZE=$3
 fi
@@ -30,7 +30,7 @@ function sleep3(){
 	sleep 3
 }
 function getMinibian(){
-	curl -L http://sourceforge.net/projects/minibian/files/2015-02-18-wheezy-minibian.tar.gz/download -o $QBIAN_MINIBIAN_DIR/minibian.gz.tar && \
+	curl -L $( cat $QBIAN_MINIBIAN_DIR/BASE_IMAGE_TAR_URL | sed -n 1p ) -o $QBIAN_MINIBIAN_DIR/minibian.gz.tar && \
 	tar -zxvf $QBIAN_MINIBIAN_DIR/minibian.gz.tar -C $QBIAN_MINIBIAN_DIR && unlink $QBIAN_MINIBIAN_DIR/minibian.gz.tar
 }
 
@@ -68,6 +68,7 @@ function doProvision(){
 ## @ sudo mount /dev/mapper/loop0p1 $QBIAN_DISK_DIR/$NAME/root_mount/etc/boot/ && -> mount boot /root_mount/etc/boot/ ??
 	sudo mount /dev/mapper/loop0p2 $QBIAN_DISK_DIR/$NAME/root_mount && sleep3 && \
 	# Skel
+	sudo echo "$NAME" > $INJECT/root/release && \
 	sudo rsync -avz $INJECT/* $QBIAN_DISK_DIR/$NAME/root_mount/ && \
 	sudo rsync -avz $PROVISION/ssh/* $QBIAN_DISK_DIR/$NAME/root_mount/etc/skel/.ssh/ && \
 	sudo rsync -avz $PROVISION/ssh/* $QBIAN_DISK_DIR/$NAME/root_mount/root/.ssh/ && \
@@ -76,9 +77,8 @@ function doProvision(){
 	sudo chown -R root:root $QBIAN_DISK_DIR/$NAME/root_mount/* && \
 	# Provision executable
 	sudo chmod +x $QBIAN_DISK_DIR/$NAME/root_mount/root/Provision.sh &&  \
-	sudo touch $QBIAN_DISK_DIR/$NAME/root_mount/root/created-$(date +"%s").log && \
 	#
-	sudo rsync -avz $QBIAN_DISK_DIR/$NAME/root_mount/* $QBIAN_DISK_DIR/$NAME/root/ &&
+	sudo rsync -avz $QBIAN_DISK_DIR/$NAME/root_mount/* $QBIAN_DISK_DIR/$NAME/root/ && \
 	sudo umount $QBIAN_DISK_DIR/$NAME/root_mount/ && sleep3 \
 	# kpartx2
 	sudo kpartx -vd ./2015-02-18-wheezy-minibian.img && ensureUmount && sudo sync && \
