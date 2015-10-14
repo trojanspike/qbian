@@ -128,29 +128,29 @@ while test $# -gt 0; do
                     fi
                     shift
                   ;;
-                --dd)
-                    exit 0 # TODO
+                --export)
+                NAME=$2
+                PATH=$3
                   if [ ! $# -eq 3 ]; then
                     echo "Not enough params"
-                    echo "$package --dd <NAME> <DEVICE|IMAGE>"
-                    echo "$package --dd default /dev/sdc"
-                    echo "$package --dd default ~/Path/tp/create/image.img"
+                    echo "$package --export <NAME> <DEVICE|PATH>"
+                    echo "$package --export default /dev/sdc"
+                    echo "$package --export default ~/Path/tp/create/image.img"
                     exit 1
                   fi
-                  if [ -f $QBIAN_DISK_DIR/$2/2015-02-18-wheezy-minibian.img ]; then
-                    echo "Dump disk to sd card $2 $3"
-                    sudo dd if=$QBIAN_DISK_DIR/$2/2015-02-18-wheezy-minibian.img of=$3 bs=4M
+                  if [ -f $QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img ]; then
+                    echo "Exporting $NAME to $PATH"
+                    sudo dd if=$QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img of=$PATH bs=4M
                   else
                     echo "ERROR : No minibian image found"
                   fi
                   break
                   ;;
                 --clear)
-                    exit 0 # TODO
-                  if test $# -gt 1; then
-                    echo $2
-                    echo "Clear"
-                  fi
+                  rand=$RANDOM
+                  mv $QBIAN_DISK_DIR/DISK-HERE.txt $BASE/$rand && \
+                  rm -Rf $QBIAN_DISK_DIR/* && \
+                  mv $BASE/$rand $QBIAN_DISK_DIR/DISK-HERE.txt
                   shift
                   ;;
                 *)
