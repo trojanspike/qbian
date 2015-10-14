@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
+clear && sleep 4 && \
 echo " Running provision for device environment "
-
+sleep 2 && \
 # https://github.com/eugeneware/wiring-pi
-
-
 # dpkg --get-selections
 # dpkg --get-selections | grep -v deinstall
 # npm ls -g --depth=0 --parseable
-
 #@ http://www.raspberrypi-spy.co.uk/2014/11/enabling-the-i2c-interface-on-the-raspberry-pi/
 
 echo -n "Please enter the new users name [NO SPACES] : "
