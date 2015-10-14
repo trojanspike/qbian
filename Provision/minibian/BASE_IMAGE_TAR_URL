@@ -1,0 +1,10 @@
+https://s3-eu-west-1.amazonaws.com/qbain-images/trojanspike-minibian.tar.gz
+
+
+# This file contains the url where the minibian image will be retrieved from.
+# The url endpoint at the first line will be used.
+# the only difference in mine & the original minibain image is a symbolic link
+# ran at boot executing /root/Provision.sh
+
+# Original image used 
+http://sourceforge.net/projects/minibian/files/2015-02-18-wheezy-minibian.tar.gz/download
