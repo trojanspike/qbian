@@ -4,3 +4,10 @@ https://www.linux.com/news/enterprise/systems-management/8116-an-introduction-to
 /etc/init.d/tester.sh << fileScript
 update-rc.d tester.sh defaults
 ls -l /etc/rc?.d/*tester.sh
+
+# gpio access from updev
+https://www.raspberrypi.org/forums/viewtopic.php?f=29&t=9667
+
+
+# cat /proc/modules
+# lsmod
