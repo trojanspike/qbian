@@ -33,7 +33,7 @@ apt-get update && \
 # https://www.garron.me/en/linux/visudo-command-sudoers-file-sudo-default-editor.html
 # export VISUAL=vim; visudo
 #
-apt-get install minicom i2c-tools usbutils libi2c-dev resolvconf curl git-core vim iptables nano build-essential libstdc++6 gcc-4.8 g++-4.8 python python-smbus python-dev python3-dev python-pip -y && \
+apt-get install minicom i2c-tools usbutils dh-autoreconf libi2c-dev resolvconf curl git-core vim iptables nano build-essential libstdc++6 gcc-4.8 g++-4.8 python python-smbus python-dev python3-dev python-pip -y && \
 apt-get install -y sudo && \
 ## @ install raspi-config ??
 ## Update for node runner
@@ -53,6 +53,13 @@ echo -e "i2c-bcm2708\ni2c-dev" >> /etc/modules && \
 ## @ http://raspi.tv/how-to-set-up-i2c-in-raspbian-on-the-raspberry-pi
 echo -e "\n# i2c\nblacklist spi-bcm2708\nblacklist i2c-bcm2708" >> /etc/modprobe.d/fbdev-blacklist.conf && \
 sed -i "s/blacklist/#blacklist/g" /etc/modprobe.d/fbdev-blacklist.conf && \
+# git packages # TODO -> after created , $USER or ROOT ??
+echo "Quick2Wire " && \
+git clone https://github.com/quick2wire/quick2wire-gpio-admin.git quck2wire && \
+cd quck2wire && make install && cd ~/ && \
+echo "pi blaster" && \
+git clone https://github.com/sarfata/pi-blaster.git && cd pi-blaster/ && \
+./autogen.sh && ./configure && make && make install && \
 #
 ## Should be already in skel
 git clone https://github.com/creationix/nvm.git /etc/skel/.nvm && cd /etc/skel/.nvm  && git checkout v0.25.4 && cd ~/ && \
@@ -69,7 +76,7 @@ ln /usr/sbin/i2cset /home/$USER/bin/i2cset && \
 git clone https://github.com/lurch/rpi-serial-console.git && \
 ln ./rpi-serial-console/rpi-serial-console /usr/sbin/rpi-serial-console && \ # use $ sudo rpi-serial-console disable
 cp -a /root/Server/ /home/$USER/Server/ && chown -R $USER:users /home/$USER/* && \
-# adduser $USER gpio && \
+adduser $USER gpio && \
 adduser $USER i2c && \
 adduser $USER sudo && \
 adduser $USER dialout && \
@@ -79,12 +86,8 @@ chmod +x /etc/init.d/* && \
 sed -i "s/{USER}/$USER/g" /etc/sudoers.d/user-perm && \
 /bin/su - $USER -c "cd ~/ && nvm install iojs && nvm alias default iojs && npm i forever node-gyp -g && cd ~/Server/ && npm install && cd ~" &&
 ##############
-# git packages # TODO -> after created , $USER or ROOT ??
-echo "Quick2Wire " && \
-##:: git clone https://github.com/trojanspike/quick2wire-gpio-admin.git quck2wire && \
-##:: cd quck2wire && make install && cd ~/ && \
 # http://quick2wire.com/safe-controlled-access-to-gpio-on-the-raspberry-pi/
-echo "Installing wiringPi" && \
+## echo "Installing wiringPi" && \
 # https://github.com/eugeneware/wiring-pi
 # git clone https://github.com/eugeneware/wiring-pi.git WirePi && cd WirePi && ./install.sh && \
 #
