@@ -21,6 +21,9 @@ do_start() {
 	# forever start -c "nodemon --harmony" app.js --exitcrash
 	/bin/su - {USER} -c 'cd ~/ && forever -c "node --harmony_arrow_functions" start ~/Server/app.js'
 	/bin/su - {USER} -c 'cd ~/ && forever -c "node --harmony_arrow_functions" start ~/Server/gpio.js'
+	/bin/su - {USER} -c 'cd ~/ && forever -c "node --harmony_arrow_functions" start ~/Server/onoff.js'
+	/bin/su - {USER} -c 'cd ~/ && forever -c "node --harmony_arrow_functions" start ~/Server/pi-gpio.js 1400'
+	/bin/su - {USER} -c 'cd ~/ && ~/Server/pi-blast.sh > /dev/null 2>&1 &'
 	touch /root/Server-app-js_success1
 }
 
