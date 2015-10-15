@@ -92,7 +92,7 @@ while test $# -gt 0; do
                     fi
                   else
                     echo "Not enough Params"
-                    echo "$package --create-img <NAME> <CONFIG> <RESIZE:{optional}>"
+                    echo "$package --create-img <NAME> <CONFIG> <RESIZE:{optional}> <IMG:{optional}>"
                     echo "root/Provision.sh is also required"
                   fi
                   exit 0
