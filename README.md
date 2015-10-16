@@ -13,6 +13,10 @@ $ git clone -b {release} {url}
 $ ln -f /path/to/qbain/package/bin/qbain ~/bin/qbain
 ```
 
+![Running on qemu](/../images/run-img.png?raw=true "Running on qemu")
+![Running on qemu](https://raw.githubusercontent.com/trojanspike/qbian/images/run-img.png)
+
+
 #### _Quick example_
 
 ---
