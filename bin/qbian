@@ -60,7 +60,12 @@ while test $# -gt 0; do
                   shift
                   ;;
                 --list)
-                      echo "--------------------------------------|"
+                      echo "----------------------------------------|"
+                  if [ ! -d $QBIAN_DISK_DIR/default/ ]; then
+                    echo "ERR : Default image needs to be created"
+                      echo "----------------------------------------|"
+                    exit 2
+                  fi
                   for i in $( ls -d $QBIAN_DISK_DIR/*/ );
                     do
                       echo $(basename $i)
