@@ -14,38 +14,28 @@ $ ln -f /path/to/qbain/package/bin/qbain ~/bin/qbain
 ```
 
 ![Running on qemu](/../images/run-img.png?raw=true "Running on qemu")
-![Running on qemu](https://raw.githubusercontent.com/trojanspike/qbian/images/run-img.png)
-
+![cli help](/../images/help.png?raw=true "cli help")
 
 #### _Quick example_
 
 ---
 ```bash
 $ qbain --create-default # creates a default image, uses the injects/default folder as injects
-$ qbian --run default 5522 # run the default image, uses port 5522 to ssh
-$ qbian --list # List the available images to run
-```
-_After you create the default image you can login using_ :
-```bash
+$ qbian --run-img default 5522 # run the default image, uses port 5522 to ssh
+# After you create and the default image you can login using
 $ ssh root@127.0.0.1 -p 5522
-```
-_At root home directory there'll be a Provision file to run_ :
-```bash
-$ ./Provision.sh
-```
-_create a new image based on the default img updated_
-```bash
+# At root home directory there'll be a Provision file to run
+$ ./Provision.sh # all done halt image
+# create a new image based on the default updated img
 $ qbian --create-img updated "-redir tcp:8080::8080" 1G default # create new images using the default img, Injects/updated folder required
-$ qbian --remove default # delete an image
+$ qbian --list # list the images
+# Use an already configured provion i.e "example" one I've created
+$ qbian --create-img example "-redir tcp:1374::1374 -redir tcp:8080::8080" 1G
+# The example provision script will take a little while to complete. Add a user & password perdefined. add nvm & iojs with forever to run node. Add a quick express server & runs this at start up.
 ```
 
-_The provision script will take a little while to complete. Add a user & password perdefined. add nvm & iojs with forever to run node. Add a quick express server & runs this at start up._
 
 #### note :
-
-* ~/bin/rpi-serial-console needs to be ran on a device because /boot/cmdline.txt is not on the qemu boot directory.
-
-* ~/bin/i2cdetect also cannot be ran from the qemu env because there is no i2c attached.
 ---
 
 #### TODO:
