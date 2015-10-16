@@ -25,11 +25,26 @@ while test $# -gt 0; do
                 echo "$package <application> [arguments]"
                 echo " "
                 echo "options:"
-                echo "$package --create-default null, \"creates a default image using the injects/default\""
-                echo "$package --create-img <NAME> <CONFIG> <ROOT_INJECT_DIR> <RESIZE:{optional}>"
-                echo "$package --run-img <NAME> <SSH_PORT>, \"run an image with qemu\""
+                echo -e "\e[0;36mrun an image with qemu\e[0m"
+                echo "$package --run-img <NAME> <SSH_PORT>"
+                echo -e "\e[0;36mrun an sd with qemu\e[0m"
+                echo "$package --run-sd <DEVICE> <SSH> <CONFIG>"
+                echo -e "\e[0;36mList available images\e[0m"
                 echo "$package --list null, \"list available images\""
-                echo "$package --remove <IMG_NAME> # remove an image"
+                echo -e "\e[0;36mCreate a new skel\e[0m"
+                echo "$package --skel <NAME>"
+                echo -e "\e[0;36mCreate a new minibian image\e[0m"
+                echo "$package --create-img <NAME> <CONFIG> <RESIZE:{optional}>"
+                echo -e "\e[0;36mRemove an images\e[0m"
+                echo "$package --remove <NAME> <IMG_NAME> # remove an image"
+                echo -e "\e[0;36mCreate Default image, this should be done first\e[0m"
+                echo "$package --create-default null, \"Create the defalult image\""
+                echo -e "\e[0;36mExport image to sd or image\e[0m"
+                echo "$package --export <NAME> <PATH|DEVICE>"
+                echo -e "\e[0;36mImport from sd or image\e[0m"
+                echo "$package --import <NAME|DEVICE> <CONFIG>"
+                echo -e "\e[0;36mRemove all images\e[0m"
+                echo "$package --clear null, delete images"
                 exit 0
                 ;;
                 --run-img)
@@ -130,6 +145,7 @@ while test $# -gt 0; do
                     shift
                     ;;
                   --create-sd)
+                    exit 0 # TODO ??
                     if test $# -eq 4; then
                       echo $#
                       echo $0
