@@ -1,4 +1,4 @@
-https://s3-eu-west-1.amazonaws.com/qbain-images/trojanspike-minibian.tar.gz
+http://sourceforge.net/projects/minibian/files/2015-02-18-wheezy-minibian.tar.gz/download
 
 
 # This file contains the url where the minibian image will be retrieved from.
@@ -6,5 +6,11 @@ https://s3-eu-west-1.amazonaws.com/qbain-images/trojanspike-minibian.tar.gz
 # the only difference in mine & the original minibain image is a symbolic link
 # ran at boot executing /root/Provision.sh
 
-# Original image used 
+# Original image used
 http://sourceforge.net/projects/minibian/files/2015-02-18-wheezy-minibian.tar.gz/download
+
+# minibian wifi
+http://sourceforge.net/projects/minibianwifi/files/latest/download
+
+# One I created which just runs the provision script on start up
+https://s3-eu-west-1.amazonaws.com/qbain-images/trojanspike-minibian.tar.gz
