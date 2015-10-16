@@ -5,16 +5,14 @@
 * Run on linux or vagrant VM linix machine ( TO BE COMPLETE )
 * Uses kpartx for mounting the *.img and editing with a provision script
 * Uses qemu for emulation of the arm image.
-* Toolset will be extended over time. i.e create new images & config with custom proviisions.
+* Toolset will be extended over time. i.e create new images & config with custom provisions.
+* Automated provisioning & easy replication with imports & exports.
 
 _Add the cli into your bin_
 ```bash
 $ git clone -b {release} {url}
 $ ln -f /path/to/qbain/package/bin/qbain ~/bin/qbain
 ```
-
-![Running on qemu](/../images/run-img.png?raw=true "Running on qemu")
-![cli help](/../images/help.png?raw=true "cli help")
 
 #### _Quick example_
 
@@ -32,16 +30,27 @@ $ qbian --list # list the images
 # Use an already configured provion i.e "example" one I've created
 $ qbian --create-img example "-redir tcp:1374::1374 -redir tcp:8080::8080" 1G
 # The example provision script will take a little while to complete. Add a user & password perdefined. add nvm & iojs with forever to run node. Add a quick express server & runs this at start up.
+# Push to sd card - fdisk -l :: /dev/sdc < sd card >
+$ qbian --export example /dev/sdc
+# Now you can run on your device
 ```
 
+![Running on qemu](/../images/run-img.png?raw=true "Running on qemu")
+![cli help](/../images/help.png?raw=true "cli help")
+
+##### cli commands
+* --create-default { 0 args }
+* --run-img { 2 args } [ image-name , ssh-port ]
+* --remove { 1 arg } [ image-name ]
 
 #### note :
+* I just created this for myself & it's not perfect. People are more than welcome to use it, make changes & improve it.
 ---
 
 #### TODO:
 
-* Output stdout to log file /imageName/output.log
-* Output stderr to log file /imageName/error.log # hopefully none
-* Quiet down with minibian-qemu.sh scritp , clear , echo info to user & put to log file
-* Checks folder and files are avail , else either create or error out
-* Error Checks in /bin/qbain 
+- [ ] Output stdout to log file /imageName/output.log
+- [ ] Output stderr to log file /imageName/error.log # hopefully none
+- [ ] Quiet down with minibian-qemu.sh script , clear , echo info to user & put to log file
+- [ ] Checks folder and files are avail , else either create or error out
+- [ ] Error Checks in /bin/qbain 
