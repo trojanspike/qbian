@@ -74,6 +74,15 @@ while test $# -gt 0; do
                     done
                   shift
                   ;;
+                --skel)
+                  if [ $# -eq 2 ]; then
+                    NAME=$2
+                    rsync -avz $BASE/Provision/InjectSkeleton/* $BASE/injects/$NAME
+                  else
+                    echo "Not enough params $ qbian --skel <NAME>"
+                  fi
+                  exit 0
+                ;;
                 --create-img)
                   if [ "$#" -eq 4 ] || [ "$#" -eq 5 ]; then
                   NAME=$2 # name
