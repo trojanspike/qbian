@@ -1,5 +1,7 @@
 # (qbian) qemu + minibian :: qbian
 
+v 0.0.1
+
 #### A cli tool-set to help create & provision minibian images
 
 * Run on linux or vagrant VM linix machine ( TO BE COMPLETE )
@@ -7,6 +9,7 @@
 * Uses qemu for emulation of the arm image.
 * Toolset will be extended over time. i.e create new images & config with custom provisions.
 * Automated provisioning & easy replication with imports & exports.
+* I just created this for myself & it's not perfect. People are more than welcome to use it, make changes & improve it.
 
 _Add the cli into your bin_
 ```bash
@@ -49,9 +52,9 @@ $ qbian --export example /dev/sdc
 * --clear { 0 args } Remove all images
 * --export { 2 args } [ image-name , path{ sd-card , image-path } ] Export an image
 * --import { 2 args } [ path{ sd-card , image-path } , image-name ] Import an image
-#### note :
 
-* I just created this for myself & it's not perfect. People are more than welcome to use it, make changes & improve it.
+note :
+
 ---
 
 #### TODO:
