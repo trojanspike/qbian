@@ -52,6 +52,7 @@ $ qbian --export example /dev/sdc
 * --clear { 0 args } Remove all images
 * --export { 2 args } [ image-name , path{ sd-card , image-path } ] Export an image
 * --import { 2 args } [ path{ sd-card , image-path } , image-name ] Import an image
+* --ssh { 1 arg } [ ssh-options ] Use ssh key.
 
 note :
 
@@ -63,4 +64,4 @@ note :
 - [ ] Output stderr to log file /imageName/error.log # hopefully none
 - [ ] Quiet down with minibian-qemu.sh script , clear , echo info to user & put to log file
 - [ ] Checks folder and files are avail , else either create or error out
-- [ ] Error Checks in /bin/qbain 
+- [ ] Error Checks in /bin/qbain

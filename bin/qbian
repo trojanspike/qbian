@@ -45,6 +45,8 @@ while test $# -gt 0; do
                 echo "$package --import <NAME|DEVICE> <CONFIG>"
                 echo -e "\e[0;36mRemove all images\e[0m"
                 echo "$package --clear null, delete images"
+                echo -e "\e[0;36mSSH into image\e[0m"
+                echo "$package --ssh <SSH_OPTIONS>, ssh using the ssh key"
                 exit 0
                 ;;
                 --run-img)
@@ -143,6 +145,19 @@ while test $# -gt 0; do
                       echo "image \"default\" already available, use $ $package --run-img default 5522"
                     fi
                     shift
+                    ;;
+                  --ssh)
+                    # $ qbian --ssh "user@127.0.0.1 -p 5522"
+                    # $ qbian --ssh "user@192.168.1.100"
+                    if [ ! $# -eq 2 ]; then
+                      echo "Not correct param amount"
+                      echo "qbian --ssh \"user@127.0.0.1 -p 5522\""
+                      echo "qbian --ssh \"user@192.168.1.100\""
+                      exit 2
+                    fi
+                    SSH_ARGS=$2
+                    ssh -i $PROVISION/ssh/qbianssh $SSH_ARGS
+                    exit 0
                     ;;
                   --create-sd)
                     exit 0 # TODO ??
