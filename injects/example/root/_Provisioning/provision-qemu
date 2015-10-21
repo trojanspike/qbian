@@ -75,7 +75,7 @@ ln /usr/sbin/i2cset /home/$USER/bin/i2cset && \
 # @ use > https://github.com/lurch/rpi-serial-console.git "instead"
 git clone https://github.com/lurch/rpi-serial-console.git && \
 ln ./rpi-serial-console/rpi-serial-console /usr/sbin/rpi-serial-console && \ # use $ sudo rpi-serial-console disable
-cp -a /root/Server/ /home/$USER/Server/ && chown -R $USER:users /home/$USER/* && \
+chown -R $USER:users /home/$USER/* && \
 adduser $USER gpio && \
 adduser $USER i2c && \
 adduser $USER sudo && \
