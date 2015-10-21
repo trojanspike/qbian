@@ -136,10 +136,23 @@ while test $# -gt 0; do
                     fi
                     shift
                     ;;
+                    --ssh)
+                      # $ qbian --ssh "user@127.0.0.1 -p 5522"
+                      # $ qbian --ssh "user@192.168.1.100"
+                      if [ ! $# -eq 2 ]; then
+                        echo "Not correct param amount"
+                        echo "qbian --ssh \"user@127.0.0.1 -p 5522\""
+                        echo "qbian --ssh \"user@192.168.1.100\""
+                        exit 2
+                      fi
+                      SSH_ARGS=$2
+                      ssh -i $PROVISION/ssh/qbianssh $SSH_ARGS
+                      exit 0
+                    ;;
                   --create-default)
                   if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
                       ssh-keygen -t rsa -f $PROVISION/ssh/qbian -N "" -C "qbian@raspberrypi" && \
-                      # TODO 
+                      # TODO
                       # Q : hostname > /etc/hostname & other hosts in /injects/skel
                       # Q : default user :: > USER@HOSTNAME
                       cat $PROVISION/ssh/qbian.pub > $PROVISION/ssh/authorized_keys && \
