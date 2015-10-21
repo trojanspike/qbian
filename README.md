@@ -1,6 +1,6 @@
 # (qbian) qemu + minibian :: qbian
 
-v 0.0.1
+v 0.0.4
 
 #### A cli tool-set to help create & provision minibian images
 
@@ -24,7 +24,8 @@ $ ln -f /path/to/qbain/package/bin/qbain ~/bin/qbain
 $ qbain --create-default # creates a default image, uses the injects/default folder as injects
 $ qbian --run-img default 5522 # run the default image, uses port 5522 to ssh
 # After you create and the default image you can login using
-$ ssh root@127.0.0.1 -p 5522
+$ ssh root@127.0.0.1 -p 5522 # OR if you have ssh configed to only allow ssh
+$ qbain --ssh "root@127.0.0.1 -p 5522"
 # At root home directory there'll be a Provision file to run
 $ ./Provision.sh # all done halt image
 # create a new image based on the default updated img
@@ -55,6 +56,8 @@ $ qbian --export example /dev/sdc
 * --ssh { 1 arg } [ ssh-options ] Use ssh key.
 
 note :
+  To use the provision image I made you just need to edit file /Provision/minibian/BASE_IMAGE_TAR_URL,
+  take note that the format needs to be tar.gz & image inside called 2015-02-18-wheezy-minibian.img
 
 ---
 
@@ -65,3 +68,4 @@ note :
 - [ ] Quiet down with minibian-qemu.sh script , clear , echo info to user & put to log file
 - [ ] Checks folder and files are avail , else either create or error out
 - [ ] Error Checks in /bin/qbain
+- [ ] Make tar minibian file configurable with a config file
