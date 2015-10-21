@@ -137,33 +137,17 @@ while test $# -gt 0; do
                     shift
                     ;;
                   --create-default)
-                  echo -n "Please enter an email address for your ssh-key [NO SPACES] : "
-                  read EMAIL
-                  if [ -z "$EMAIL" ]; then
-                     echo "Error - Email required"
-                     exit 1
-                  fi
-                    if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
-                      ssh-keygen -t rsa -f $PROVISION/ssh/qbianssh -N "" -C "$EMAIL" && \
-                      cat $PROVISION/ssh/qbianssh.pub > $PROVISION/ssh/authorized_keys && \
+                  if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
+                      ssh-keygen -t rsa -f $PROVISION/ssh/qbian -N "" -C "qbian@raspberrypi" && \
+                      # TODO 
+                      # Q : hostname > /etc/hostname & other hosts in /injects/skel
+                      # Q : default user :: > USER@HOSTNAME
+                      cat $PROVISION/ssh/qbian.pub > $PROVISION/ssh/authorized_keys && \
                       $BASE/bin/qbian --create-img default "-redir tcp:1374::1374" 538M
                     else
                       echo "image \"default\" already available, use $ $package --run-img default 5522"
                     fi
                     shift
-                    ;;
-                  --ssh)
-                    # $ qbian --ssh "user@127.0.0.1 -p 5522"
-                    # $ qbian --ssh "user@192.168.1.100"
-                    if [ ! $# -eq 2 ]; then
-                      echo "Not correct param amount"
-                      echo "qbian --ssh \"user@127.0.0.1 -p 5522\""
-                      echo "qbian --ssh \"user@192.168.1.100\""
-                      exit 2
-                    fi
-                    SSH_ARGS=$2
-                    ssh -i $PROVISION/ssh/qbianssh $SSH_ARGS
-                    exit 0
                     ;;
                   --create-sd)
                     exit 0 # TODO ??
