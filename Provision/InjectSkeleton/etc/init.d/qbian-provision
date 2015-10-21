@@ -12,6 +12,11 @@
 # This will be the only change I'll have made differ from the minibian image
 # a symbolic link will be actived linking here,
 # Should make it easier for provisioning .
+
+# activate it with $ update-rc.d qbian-provision defaults
+
+# Or you can use the image I have with this feature already build in,
+# see /Provision/minibian/BASE_IMAGE_TAR_URL for info & to set the default
 case "$1" in
     start)
       NAME=$(cat /root/release)
@@ -43,5 +48,3 @@ case "$1" in
         exit 3
         ;;
 esac
-
-# update-rc.d qbian-provision defaults
