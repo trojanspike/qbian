@@ -137,8 +137,14 @@ while test $# -gt 0; do
                     shift
                     ;;
                   --create-default)
+                  echo -n "Please enter an email address for your ssh-key [NO SPACES] : "
+                  read EMAIL
+                  if [ -z "$EMAIL" ]; then
+                     echo "Error - Email required"
+                     exit 1
+                  fi
                     if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
-                      ssh-keygen -t rsa -f $PROVISION/ssh/qbianssh -N "" -C "your_email@youremail.com" && \
+                      ssh-keygen -t rsa -f $PROVISION/ssh/qbianssh -N "" -C "$EMAIL" && \
                       cat $PROVISION/ssh/qbianssh.pub > $PROVISION/ssh/authorized_keys && \
                       $BASE/bin/qbian --create-img default "-redir tcp:1374::1374" 512M
                     else
