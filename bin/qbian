@@ -106,6 +106,10 @@ while test $# -gt 0; do
                   CONFIG=$3 # config
                   RESIZE=$4 # resize
                   BASE_IMAGE=$5 # base img path
+                  if [ ! -d $QBIAN_DISK_DIR/default ]; then
+                    echo "Default disk must be created before any others"
+                    exit 1
+                  fi
                   # TODO -> ensure INJECT folder has necessary folder structure , skel , ssh etc
                     if [ ! -z "$BASE_IMAGE" ]; then
                       export BASE_IMAGE="$QBIAN_DISK_DIR/$BASE_IMAGE/2015-02-18-wheezy-minibian.img"
