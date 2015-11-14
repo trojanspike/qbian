@@ -1,0 +1,36 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          app-start
+# Required-Start:
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description:
+### END INIT INFO
+
+
+PATH=/usr/share/nvm:/sbin:/usr/sbin:/bin:/usr/bin
+
+. /lib/init/vars.sh
+. /lib/lsb/init-functions
+
+case "$1" in
+    start)
+				/bin/su - {USER} -c 'cd ~/ && ~/init.sh start'
+        ;;
+    restart|reload)
+        		/bin/su - {USER} -c 'cd ~/ && ~/init.sh reload'
+        ;;
+    stop)
+				/bin/su - {USER} -c 'cd ~/ && ~/init.sh stop'
+        ;;
+    *)
+        echo "Usage: $0 start|stop" >&2
+        exit 3
+        ;;
+esac
+
+# update-rc.d qbian defaults
+#
+# update-rc.d -f qbian remove
+# http://serverfault.com/questions/44400/run-a-shell-script-as-a-different-user

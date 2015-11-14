@@ -150,16 +150,16 @@ while test $# -gt 0; do
                         exit 2
                       fi
                       SSH_ARGS=$2
-                      ssh -i $PROVISION/ssh/id_ras $SSH_ARGS
+                      ssh -i $PROVISION/ssh/id_rsa $SSH_ARGS
                       exit 0
                     ;;
                   --create-default)
                   if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
-                      ssh-keygen -t rsa -f $PROVISION/ssh/id_ras -N "" -C "qbian@raspberrypi" && \
+                      ssh-keygen -t rsa -f $PROVISION/ssh/id_ras -N "" -C "qbain@qbian" && \
                       # TODO
                       # Q : hostname > /etc/hostname & other hosts in /injects/skel
                       # Q : default user :: > USER@HOSTNAME
-                      cat $PROVISION/ssh/id_ras.pub > $PROVISION/ssh/authorized_keys && \
+                      cat $PROVISION/ssh/id_rsa.pub > $PROVISION/ssh/authorized_keys && \
                       $BASE/bin/qbian --create-img default "-redir tcp:1374::1374" 538M
                     else
                       echo "image \"default\" already available, use $ $package --run-img default 5522"

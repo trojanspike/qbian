@@ -1,0 +1,26 @@
+## localhost network > intranet
+auto lo
+iface lo inet loopback
+
+
+## wifi network > internet
+auto wlan0
+allow-hotplug manual
+iface wlan0 inet dhcp
+netmask 255.255.255.0
+gateway 192.168.1.254
+dns-nameservers 8.8.8.8 8.8.4.4
+dns-search google.com
+wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+
+## ethernet network > internet
+auto eth0
+iface eth0 inet static
+address 192.168.1.110
+netmask 255.255.255.0
+network 192.168.1.0
+broadcast 192.168.1.255
+gateway 192.168.1.1
+dns-nameservers 8.8.8.8 8.8.4.4
+dns-search google.com
