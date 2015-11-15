@@ -12,7 +12,7 @@ v 0.0.8
 * I just created this for myself & it's not perfect. People are more than welcome to use it, make changes & improve it.
 
 #### Envoironments Available:
-[ qbain cloud 9 IDE interface ](../tree/master/injects/qbian/README.md)
+[ qbain cloud 9 IDE interface ](injects/qbian)
 
 _Add the cli into your bin_
 ```bash
