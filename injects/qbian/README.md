@@ -1,0 +1,28 @@
+# (qbian) qemu + minibian :: qbian
+
+
+#### qbain cloud 9 IDE interface
+
+I created this image to make it easier to develop on the device or qemu virtual machine. Includes the abality for collaboration.
+Run on the device as soon as the code is complete instead of having to push | pull | ftp your code over to the device.
+
+One your code is as you want you can take advantage of the "qbain service" ~/init.sh and run your scripts when the system start/boots.
+
+### qbian cli install
+You can create your own using the qbain cli tools set :
+
+```bash
+$ qbian --create-img qbian "-redir tcp:8080::8080 -redir tcp:1374::1374" 3G
+# this will create the image usable with the qbain cli - when complete
+$ qbian --run-img qbian 5522 # note that the image will run the provision script and installed whats needed
+# When launched you log in and install c9 sdk | ide
+$ qbian --ssh "qbain@127.0.0.1 -p 5522"
+# qbian:~/ $ ~/bin/c9-install
+# note that this will take a while depending on internet speeds - or not because it is has a lot to do
+# Finally enjoy 
+# If you want to contribute please do so : or to donate to the cause , again please do so. I'll have a paypal donate link soon
+```
+
+
+### Download the alread configure image 
+{ TODO }

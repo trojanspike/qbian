@@ -1,6 +1,6 @@
 # (qbian) qemu + minibian :: qbian
 
-v 0.0.4
+v 0.0.8
 
 #### A cli tool-set to help create & provision minibian images
 
@@ -10,6 +10,9 @@ v 0.0.4
 * Toolset will be extended over time. i.e create new images & config with custom provisions.
 * Automated provisioning & easy replication with imports & exports.
 * I just created this for myself & it's not perfect. People are more than welcome to use it, make changes & improve it.
+
+#### Envoironments Available:
+[ qbain cloud 9 IDE interface ](tree/master/injects/qbian/README.md)
 
 _Add the cli into your bin_
 ```bash
