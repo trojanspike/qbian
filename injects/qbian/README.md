@@ -26,3 +26,11 @@ $ qbian --ssh "qbain@127.0.0.1 -p 5522"
 
 ### Download the alread configure image 
 { TODO }
+
+note - you might want to do an update on ~/Server. Just for some examples
+```bash
+$ cd ~/Server && git pull origin master
+```
+
+![Cloud 9 IDE](/../images/qbian-c9ide.png?raw=true "C9 ide on qemu")
+![Node running task](/../images/qbian-noderun.png?raw=true "node tasks")
