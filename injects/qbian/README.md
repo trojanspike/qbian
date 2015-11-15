@@ -25,7 +25,13 @@ $ qbian --ssh "qbain@127.0.0.1 -p 5522"
 
 
 ### Download the alread configure image 
-{ TODO }
+* Download zip from from my aws bucket <https://s3-eu-west-1.amazonaws.com/qbain-images/qbian-cloud9.zip>
+* extract files 
+* dump the 2015-02-18-wheezy-minibian.img onto a 4GB+ sd card
+* insert into your device and start
+* Go to your devices IP addr and port 8080 : e.g 192.168.0.1:8080
+* you now have access to the cloud 9 IDE. Your sudo permission etc
+* enjoy :)
 
 note - you might want to do an update on ~/Server. Just for some examples
 ```bash
