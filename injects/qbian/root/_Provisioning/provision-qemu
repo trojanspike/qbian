@@ -41,7 +41,7 @@ dpkg -i /tmp/docker-hypriot_1.8.2-1_armhf.deb && \
 ## Should be already in skel
 git clone https://github.com/creationix/nvm.git /etc/skel/.nvm && cd /etc/skel/.nvm  && git checkout v0.25.4 && cd ~/ && \
 #Add user
-useradd --shell /bin/bash --create-home --comment "Device user" $USER && passwd $USER <<EFO
+useradd --shell /bin/bash --create-home --groups gpio,i2c,sudo,dialout,docker --comment "Device user" $USER && passwd $USER <<EFO
 $PASS
 $PASS
 EFO
@@ -52,17 +52,16 @@ ln -s /usr/sbin/i2cget /home/$USER/bin/i2cget && \
 ln -s /usr/sbin/i2cset /home/$USER/bin/i2cset && \
 git clone https://github.com/lurch/rpi-serial-console.git && \
 ln -s ./rpi-serial-console/rpi-serial-console /usr/sbin/rpi-serial-console && \ # use $ sudo rpi-serial-console disable
-adduser $USER gpio && \
-adduser $USER i2c && \
-adduser $USER sudo && \
-adduser $USER dialout && \
-adduser $USER docker && \
 #
 chmod +x /etc/init.d/* && \
 sed -i "s/{USER}/$USER/g" /etc/sudoers.d/user-perm && \
-/bin/su - $USER -c "cd ~/ && nvm install iojs && nvm alias default iojs && npm i forever node-gyp coffee-script nodemon supervisor grunt bower -g && cd ~" &&sed -i "s/{USER}/$USER/g" /etc/init.d/qbian && \
+/bin/su - $USER -c "cd ~/ && nvm install iojs && nvm alias default iojs && npm i npm -g && npm i forever node-gyp coffee-script nodemon supervisor grunt bower -g && cd ~" && sed -i "s/{USER}/$USER/g" /etc/init.d/qbian && \
+# install c9 ide
+/bin/su - $USER -c "cd ~/ && git clone https://github.com/c9/core.git c9sdk" && \
+/bin/su - $USER -c "git clone https://github.com/trojanspike/qbian-server.git ~/Server" && \
+/bin/su - $USER -c "cd ~/Server && npm install" && \
 update-rc.d qbian defaults && \
-cat /etc/network/interfaces.wifi > /etc/network/interfaces && resolvconf -u && \
+# cat /etc/network/interfaces.wifi > /etc/network/interfaces && resolvconf -u && \
 passwd root <<EFO
 $NEW_ROOT_PASS
 $NEW_ROOT_PASS
