@@ -35,6 +35,7 @@ cd quck2wire && make install && cd ~/ && \
 echo "pi blaster" && \
 git clone https://github.com/sarfata/pi-blaster.git && cd pi-blaster/ && \
 ./autogen.sh && ./configure && make && make install && cd ~/ && \
+/etc/init.d/pi-blaster.boot.sh start && \
 echo "Installing Docker" && \
 curl -sSL http://downloads.hypriot.com/docker-hypriot_1.8.2-1_armhf.deb > /tmp/docker-hypriot_1.8.2-1_armhf.deb && \
 dpkg -i /tmp/docker-hypriot_1.8.2-1_armhf.deb && \
