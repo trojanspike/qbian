@@ -64,6 +64,12 @@ note :
 
 ---
 
+#### Possible Environments : TODO
+* qbian-base : base for image for env's
+* qbian-c9   : cloud9 IDE
+* qbian-kodi : Kodi player with user auto login to kodi
+* qbian-lightdm	:	debian display manager
+
 #### TODO:
 
 - [ ] Output stdout to log file /imageName/output.log
