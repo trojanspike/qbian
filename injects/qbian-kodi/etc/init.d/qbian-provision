@@ -1,0 +1,50 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          Provision-Script
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start daemon at boot time
+# Description:       Enable service provided by daemon.
+### END INIT INFO
+
+# This will be the only change I'll have made differ from the minibian image
+# a symbolic link will be actived linking here,
+# Should make it easier for provisioning .
+
+# activate it with $ update-rc.d qbian-provision defaults
+
+# Or you can use the image I have with this feature already build in,
+# see /Provision/minibian/BASE_IMAGE_TAR_URL for info & to set the default
+case "$1" in
+    start)
+      NAME=$(cat /root/release)
+      if [ ! -d /qbianProvision ]; then
+        mkdir /qbianProvision
+      fi
+      if [ -d /sys/class/gpio/ ]; then
+        if [ ! -f /qbianProvision/$NAME-device ]; then
+          /root/Provision.sh true && echo $(date +"%s") > /qbianProvision/$NAME-device
+        else
+          echo "$NAME provisioned from device $(cat /qbianProvision/$NAME-device)"
+        fi
+      else
+        if [ ! -f /qbianProvision/$NAME-qemu ]; then
+          /root/Provision.sh false && echo $(date +"%s") > /qbianProvision/$NAME-qemu
+        else
+          echo "$NAME provisioned from qemu $(cat /qbianProvision/$NAME-qemu)"
+        fi
+      fi
+        ;;
+    restart|reload|force-reload)
+        echo "Error: argument '$1' not supported" >&2
+        exit 3
+        ;;
+    stop)
+        ;;
+    *)
+        echo "Usage: $0 start|stop" >&2
+        exit 3
+        ;;
+esac
