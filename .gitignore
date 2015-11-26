@@ -8,5 +8,4 @@ Provision/minibian/*.tar
 Provision/ssh/*
 !Provision/ssh/gitindex
 
-injects/default/
 .vagrant/
