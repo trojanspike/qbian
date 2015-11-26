@@ -30,7 +30,9 @@ function sleep3(){
 	sleep 3
 }
 function getMinibian(){
-	curl -L $( cat $QBIAN_MINIBIAN_DIR/BASE_IMAGE_TAR_URL | sed -n 1p ) -o $QBIAN_MINIBIAN_DIR/minibian.gz.tar && \
+	# curl -L $( cat $QBIAN_MINIBIAN_DIR/BASE_IMAGE_TAR_URL | sed -n 1p ) -o $QBIAN_MINIBIAN_DIR/minibian.gz.tar && \
+	# Use image defined in the qbian.conf file
+	curl -L minibain_img_url -o $QBIAN_MINIBIAN_DIR/minibian.gz.tar && \
 	tar -zxvf $QBIAN_MINIBIAN_DIR/minibian.gz.tar -C $QBIAN_MINIBIAN_DIR && unlink $QBIAN_MINIBIAN_DIR/minibian.gz.tar
 }
 
