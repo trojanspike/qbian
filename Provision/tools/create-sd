@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+RAND=$RANDOM
+echo $1 # /dev/sdc
+echo $2 # skelname -> if not avail = create it from default
+
+echo $userpass
+
+exit 0;
+$BASE/bin/qbian --skel $2 && \
+mkdir /tmp/$RAND/{boot,root}

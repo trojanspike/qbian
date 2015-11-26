@@ -16,6 +16,9 @@ export "PROVISION=$BASE/Provision"
 export "QBIAN_DISK_DIR=$QBIAN_DISK_DIR"
 export "QBIAN_MINIBIAN_DIR=$QBIAN_MINIBIAN_DIR"
 export "QBASE=$BASE/qemu_boot"
+QBIAN_TOOL_DIR=$BASE/Provision/tools
+
+source $BASE/Provision/qbian.conf
 
 while test $# -gt 0; do
         case "$1" in
@@ -94,7 +97,9 @@ while test $# -gt 0; do
                 --skel)
                   if [ $# -eq 2 ]; then
                     NAME=$2
-                    rsync -avz $BASE/Provision/InjectSkeleton/* $BASE/injects/$NAME
+					if [ ! -d $BASE/injects/$NAME ];then
+                    	rsync -avz $BASE/Provision/InjectSkeleton/* $BASE/injects/$NAME
+					fi
                   else
                     echo "Not enough params $ qbian --skel <NAME>"
                   fi
@@ -155,29 +160,18 @@ while test $# -gt 0; do
                     ;;
                   --create-default)
                   if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
-                      ssh-keygen -t rsa -f $PROVISION/ssh/id_ras -N "" -C "qbain@qbian" && \
-                      # TODO
-                      # Q : hostname > /etc/hostname & other hosts in /injects/skel
-                      # Q : default user :: > USER@HOSTNAME
-                      cat $PROVISION/ssh/id_rsa.pub > $PROVISION/ssh/authorized_keys && \
-                      $BASE/bin/qbian --create-img default "-redir tcp:1374::1374" 538M
+                      $QBIAN_TOOL_DIR/create-default
                     else
                       echo "image \"default\" already available, use $ $package --run-img default 5522"
                     fi
                     shift
                     ;;
                   --create-sd)
-                    exit 0 # TODO ??
-                    if test $# -eq 4; then
-                      echo $#
-                      echo $0
-                      echo $1
-                      echo $2
-                      echo $3
-                      echo $4
-                      echo "Create"
+                    if test $# -eq 3; then
+						$QBIAN_TOOL_DIR/create-sd $2 $3
                     else
                       echo "Not enough Params"
+					  echo "$package --create-sd <dev-img> <skel>"
                     fi
                     shift
                   ;;

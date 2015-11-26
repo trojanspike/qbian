@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+ssh-keygen -t rsa -f $PROVISION/ssh/id_ras -N "" -C "$user@$hostname" && \
+# Q : hostname > /etc/hostname & other hosts in /injects/skel
+# Q : default user :: > USER@HOSTNAME
+cat $PROVISION/ssh/id_rsa.pub > $PROVISION/ssh/authorized_keys && \
+$BASE/bin/qbian --create-img default "-redir tcp:1374::1374" 538M
