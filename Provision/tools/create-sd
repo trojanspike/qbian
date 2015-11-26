@@ -2,8 +2,13 @@
 RAND=$RANDOM
 echo $1 # /dev/sdc
 echo $2 # skelname -> if not avail = create it from default
-
-echo $userpass
+echo $3 # base_img -> else default img
+# TODO -> resize image to full size of SD-card
+exit 1
+echo "Dumping minibain onto sd card" && \
+$BASE/bin/qbian --skel $2 && /usr/bin/dd if=$QBIAN_MINIBIAN_DIR/2015-02-18-wheezy-minibian.img of=$1 bs=4M && \
+sudo mkdir /tmp/$RAND && sudo mount $12 /tmp/$RAND && rsync /SKEL /tmp/$RAND &&
+sudo umount /tmp/$RAND && sudo sync
 
 exit 0;
 $BASE/bin/qbian --skel $2 && \

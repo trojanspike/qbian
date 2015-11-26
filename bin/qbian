@@ -65,7 +65,7 @@ while test $# -gt 0; do
                   shift
                   ;;
                 --run-sd)
-                  if [ ! $# -eq 3 ]; then
+                  if [ ! $# -eq 4 ]; then
                     echo "Error , not enough params"
                     echo "$ qbian --run-sd /dev/sdc 5522 \"config\""
                     exit 1
