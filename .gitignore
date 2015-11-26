@@ -9,5 +9,4 @@ Provision/ssh/*
 !Provision/ssh/gitindex
 
 injects/default/
-injects/**/release
 .vagrant/
