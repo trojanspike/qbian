@@ -111,7 +111,7 @@ while test $# -gt 0; do
                   CONFIG=$3 # config
                   RESIZE=$4 # resize
                   BASE_IMAGE=$5 # base img path
-                  if [ ! -d $QBIAN_DISK_DIR/default ]; then
+                  if [ ! -d $QBIAN_DISK_DIR/default ] && [ -z $DEFAULT_IMG ] ; then
                     echo "Default disk must be created before any others"
                     exit 1
                   fi
@@ -123,8 +123,13 @@ while test $# -gt 0; do
                       mkdir -p $QBIAN_DISK_DIR/$NAME && \
                       if [ ! -d $BASE/injects/$NAME ]; then
                         rsync -avz $BASE/Provision/InjectSkeleton/* $BASE/injects/$NAME
+						if [ "$DEFAULT_IMG" == "true" ];then
+							cat $BASE/qbian.conf >> $BASE/injects/$NAME/root/.bashrc && \
+							sed -i "s/{hostname}/$hostname/g" $BASE/injects/$NAME/etc/hostname && \
+							sed -i "s/{hostname}/$hostname/g" $BASE/injects/$NAME/etc/hosts
+						fi
                       fi
-                      echo "$CONFIG" > $QBIAN_DISK_DIR/$NAME/config.qemu && \
+                      echo "$CONFIG" > $QBIAN_DISK_DIR/$NAME/config.qemu # && \
                       $QBIAN_MINIBIAN_DIR/minibian-qemu.sh $NAME "$BASE/injects/$NAME" "$RESIZE"
                     else
                       echo "Image \"$NAME\" is already available, use $ qbian --run $NAME <SSH>"
@@ -138,8 +143,12 @@ while test $# -gt 0; do
                   exit 0
                         ;;
                   --remove)
-                    if [ $# -eq 2 ] && [ -d "$QBIAN_DISK_DIR/$2" ]; then
+					# if $3 == true -> remove skel aswell
+                    if [ $# -eq 2 ] || [ $# -eq 3 ] && [ -d "$QBIAN_DISK_DIR/$2" ]; then
                       rm -Rfv $QBIAN_DISK_DIR/$2
+						if [ "$3" == "true" ];then
+							rm -Rfv $BASE/injects/$2
+						fi
                     else
                       echo "Error --remove , $2 not found"
                     fi
