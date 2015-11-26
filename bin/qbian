@@ -18,7 +18,7 @@ export "QBIAN_MINIBIAN_DIR=$QBIAN_MINIBIAN_DIR"
 export "QBASE=$BASE/qemu_boot"
 QBIAN_TOOL_DIR=$BASE/Provision/tools
 
-source $BASE/Provision/qbian.conf
+source $BASE/qbian.conf
 
 while test $# -gt 0; do
         case "$1" in
