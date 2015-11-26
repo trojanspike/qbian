@@ -52,7 +52,7 @@ $ qbian --export example /dev/sdc
 * --run-sd { 2 arg } [ sd-path, ssh-port ] Run an sd image in qemu
 * --skel { 1 arg } [ skel-name ] Create a new empty skel with necessary files
 * --list { 0 args } List available images
-* --remove { 1 arg } [ image-name ] Remove an image
+* --remove { 2 arg } [ image-name, remove-skel{bool,optional} ] Remove an image
 * --clear { 0 args } Remove all images
 * --export { 2 args } [ image-name , path{ sd-card , image-path } ] Export an image
 * --import { 2 args } [ path{ sd-card , image-path } , image-name ] Import an image
