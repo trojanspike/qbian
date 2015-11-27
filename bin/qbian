@@ -69,7 +69,7 @@ while test $# -gt 0; do
                     echo "Not enough params"
                     echo "$package --run-img <NAME> <SSH_PORT>"
                   fi
-                  shift
+                  exit 0
                   ;;
                 --run-sd)
                   if [ ! $# -eq 4 ]; then
@@ -84,7 +84,7 @@ while test $# -gt 0; do
                   echo $#
                   clear && echo "Launching qemu with sd $DEVICE"
                   $QBASE/start.sh $DEVICE $SSH "$CONFIG"
-                  shift
+                  exit 0
                   ;;
                 --list)
                       echo "----------------------------------------|"
@@ -99,7 +99,7 @@ while test $# -gt 0; do
                       echo $(cat $QBIAN_DISK_DIR/$(basename $i)/config.qemu)
                       echo "--------------------------------------|"
                     done
-                  shift
+                  exit 0
                   ;;
                 --skel)
                   if [ $# -eq 2 ]; then
@@ -159,7 +159,7 @@ while test $# -gt 0; do
                     else
                       echo "Error --remove , $2 not found"
                     fi
-                    shift
+                    exit 0
                     ;;
                     --ssh)
                       # $ qbian --ssh "user@127.0.0.1 -p 5522"
@@ -180,7 +180,7 @@ while test $# -gt 0; do
                     else
                       echo "image \"default\" already available, use $ $package --run-img default 5522"
                     fi
-                    shift
+                    exit 0
                     ;;
                   --create-sd)
                     if test $# -eq 3; then
@@ -189,7 +189,7 @@ while test $# -gt 0; do
                       echo "Not enough Params"
 					  echo "$package --create-sd <dev-img> <skel>"
                     fi
-                    shift
+                    exit 0
                   ;;
                 --export)
                 NAME=$2
@@ -207,7 +207,7 @@ while test $# -gt 0; do
                   else
                     echo "ERROR : No minibian image found"
                   fi
-                  break
+                  exit 0
                   ;;
                   --import)
                   PATH=$2
@@ -229,18 +229,18 @@ while test $# -gt 0; do
                     else
                       echo "ERROR : image alread abailable"
                     fi
-                    break
+                    exit 0
                     ;;
                 --clear)
                   rand=$RANDOM
                   mv $QBIAN_DISK_DIR/DISK-HERE.txt $BASE/$rand && \
                   rm -Rf $QBIAN_DISK_DIR/* && \
                   mv $BASE/$rand $QBIAN_DISK_DIR/DISK-HERE.txt
-                  shift
+                  exit 0
                   ;;
                 *)
                   $BASE/bin/qbian --help && exit 0
-                  break
+                  exit 0
                 ;;
         esac
 done
