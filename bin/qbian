@@ -165,11 +165,15 @@ if [ "$#" -gt 0 ]; then
                   CONFIG=$3 # config
                   RESIZE=$4 # resize
                   BASE_IMAGE=$5 # base img path
+
+				  if [ -z $BASE_IMAGE ];then
+					BASE_IMAGE=default # Force use of default image if none defined
+				  fi
+
                   if [ ! -d $QBIAN_DISK_DIR/default ] && [ -z $DEFAULT_IMG ] ; then
                     echo "Default disk must be created before any others"
                     exit 1
                   fi
-                  # TODO -> ensure INJECT folder has necessary folder structure , skel , ssh etc
                     if [ ! -z "$BASE_IMAGE" ]; then
                       export BASE_IMAGE="$QBIAN_DISK_DIR/$BASE_IMAGE/2015-02-18-wheezy-minibian.img"
                     fi
@@ -178,7 +182,7 @@ if [ "$#" -gt 0 ]; then
                       if [ ! -d $BASE/injects/$NAME ]; then
                         rsync -avz $BASE/Provision/InjectSkeleton/* $BASE/injects/$NAME
 						if [ "$DEFAULT_IMG" == "true" ];then
-							cat $BASE/qbian.conf >> $BASE/injects/$NAME/root/.bashrc && \
+							cp $BASE/qbian.conf $BASE/injects/$NAME/root/qbian.conf && \
 							sed -i "s/{hostname}/$hostname/g" $BASE/injects/$NAME/etc/hostname && \
 							sed -i "s/{hostname}/$hostname/g" $BASE/injects/$NAME/etc/hosts
 						fi
