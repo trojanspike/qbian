@@ -5,4 +5,4 @@ fe00::0     ip6-mcastprefix
 fe02::1     ip6-allnodes
 fe02::2     ip6-allrouters
 
-127.0.1.1	  raspberrypi
+127.0.1.1	  {hostname}

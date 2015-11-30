@@ -8,4 +8,9 @@ Provision/minibian/*.tar
 Provision/ssh/*
 !Provision/ssh/gitindex
 
+# ignore hostname & hosts file vars changed
+injects/default/etc/hostname
+injects/default/etc/hosts
+
+
 .vagrant/
