@@ -9,3 +9,13 @@ Files required in provision folder
 /etc/skel/
 
 @ TODO -> checks folder and files are avail , else either create or error out
+
+[28.11.12]
+* default img uses the curled in images : all the rest use the default img or the user defined imag
+
+* defaul injects the qbian.conf into the .bashrc file
+
+* cli clean up
+
+* ( --clear remove img + if [true] -> remove skels : full clear
+[/]

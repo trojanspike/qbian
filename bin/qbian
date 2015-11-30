@@ -81,9 +81,8 @@ while test $# -gt 0; do
                   DEVICE=$2
                   SSH=$3
                   CONFIG=$4
-                  echo $#
                   clear && echo "Launching qemu with sd $DEVICE"
-                  $QBASE/start.sh $DEVICE $SSH "$CONFIG"
+                  $(which sudo) $QBASE/start.sh $DEVICE $SSH "$CONFIG"
                   exit 0
                   ;;
                 --list)
