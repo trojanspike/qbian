@@ -1,64 +1,92 @@
 #!/usr/bin/env bash
 VERSION=0.0.8
-# Package
-package=$( basename $0 );
-################
-# http://stackoverflow.com/questions/630372/determine-the-path-of-the-executing-bash-script
-BASE="`dirname \"$0\"`"
-BASE=$( cd "$BASE/../" && pwd )
-if [ -z "$BASE" ] ; then
-  exit 1
-fi
 
+# Directory to work in
+package=$( basename $0 );
+BASE=$( dirname "$0" )
+BASE=$( cd "$BASE/../" && pwd )
+
+# Local qbian directories
 QBIAN_DISK_DIR="$BASE/Provision/disks"
 QBIAN_MINIBIAN_DIR="$BASE/Provision/minibian"
+QBIAN_TOOL_DIR="$BASE/Provision/tools"
+
+# Qbian cli exports
 export "BASE=$BASE"
 export "PROVISION=$BASE/Provision"
 export "QBIAN_DISK_DIR=$QBIAN_DISK_DIR"
 export "QBIAN_MINIBIAN_DIR=$QBIAN_MINIBIAN_DIR"
 export "QBASE=$BASE/qemu_boot"
-QBIAN_TOOL_DIR=$BASE/Provision/tools
-
 source $BASE/qbian.conf
 
-while test $# -gt 0; do
+# Local scripts files
+SUDO=$(which sudo)
+DD=$(which dd)
+
+if [ "$#" -gt 0 ]; then
         case "$1" in
+####
+# help 
+# Display cli commands and options
+####
                 -h|--help)
-                echo "$package - tool-set for running minibian with qemu & provisioning images"
-                echo " "
-                echo "$package <application> [arguments]"
-                echo " "
+				echo "Version : $VERSION"
+                echo -e "$package - tool-set for running minibian with qemu & provisioning images"
+                echo -e "$package <application> [arguments]\n"
+
                 echo "options:"
                 echo -e "\e[0;36mqbian version\e[0m"
                 echo "$package --version"
+
                 echo -e "\e[0;36mrun an image with qemu\e[0m"
                 echo "$package --run-img <NAME> <SSH_PORT>"
+
                 echo -e "\e[0;36mrun an sd with qemu\e[0m"
                 echo "$package --run-sd <DEVICE> <SSH> <CONFIG>"
+
                 echo -e "\e[0;36mList available images\e[0m"
                 echo "$package --list null, \"list available images\""
+
                 echo -e "\e[0;36mCreate a new skel\e[0m"
                 echo "$package --skel <NAME>"
+
                 echo -e "\e[0;36mCreate a new minibian image\e[0m"
                 echo "$package --create-img <NAME> <CONFIG> <RESIZE:{optional}>"
+
                 echo -e "\e[0;36mRemove an images\e[0m"
                 echo "$package --remove <NAME> <IMG_NAME> # remove an image"
+
                 echo -e "\e[0;36mCreate Default image, this should be done first\e[0m"
                 echo "$package --create-default null, \"Create the defalult image\""
+
                 echo -e "\e[0;36mExport image to sd or image\e[0m"
                 echo "$package --export <NAME> <PATH|DEVICE>"
+
                 echo -e "\e[0;36mImport from sd or image\e[0m"
                 echo "$package --import <NAME|DEVICE> <CONFIG>"
+
                 echo -e "\e[0;36mRemove all images\e[0m"
                 echo "$package --clear null, delete images"
+
                 echo -e "\e[0;36mSSH into image\e[0m"
                 echo "$package --ssh <SSH_OPTIONS>, ssh using the ssh key"
+
                 exit 0
                 ;;
+###
+# --verision || -v
+# 0 params
+# Display cli version
+###
 				--version|-v)
 					echo "V $VERSION";
 					exit 0;
 				;;
+###
+# --run-img
+# 2 params, $1:image-name, $2:ssh-port
+# Run a qbian image withing qemu emulator
+###
                 --run-img)
                   if [ $# -eq 3 ]; then
                     NAME=$2
@@ -71,6 +99,11 @@ while test $# -gt 0; do
                   fi
                   exit 0
                   ;;
+###
+# --run-sd
+# 3 params, $1:device-file $2:ssh-port, $3:qemu-config
+# Run an sd card qbain image within the qemu emulation env
+###
                 --run-sd)
                   if [ ! $# -eq 4 ]; then
                     echo "Error , not enough params"
@@ -82,9 +115,14 @@ while test $# -gt 0; do
                   SSH=$3
                   CONFIG=$4
                   clear && echo "Launching qemu with sd $DEVICE"
-                  $(which sudo) $QBASE/start.sh $DEVICE $SSH "$CONFIG"
+                  $SUDO $QBASE/start.sh $DEVICE $SSH "$CONFIG"
                   exit 0
                   ;;
+###
+# --list
+# 0 params
+# Display a list of images created
+###
                 --list)
                       echo "----------------------------------------|"
                   if [ ! -d $QBIAN_DISK_DIR/default/ ]; then
@@ -100,6 +138,11 @@ while test $# -gt 0; do
                     done
                   exit 0
                   ;;
+###
+# --skel
+# 1 param, $1:skel-name
+# Create an empty skel used by the same name image
+###
                 --skel)
                   if [ $# -eq 2 ]; then
                     NAME=$2
@@ -111,6 +154,11 @@ while test $# -gt 0; do
                   fi
                   exit 0
                 ;;
+###
+# --create-img
+# 3-4 params, $1:image-name $2:qemu-config $3:resize-img[options] $4:image-to-use[options]
+# create a qbain image
+###
                 --create-img)
                   if [ "$#" -eq 4 ] || [ "$#" -eq 5 ]; then
                   NAME=$2 # name
@@ -147,7 +195,12 @@ while test $# -gt 0; do
                     echo "root/Provision.sh is also required"
                   fi
                   exit 0
-                        ;;
+                    ;;
+###
+# --remove
+# params 2, $1:image-name $2:remove-skell-aswel[options]
+# Delete an image
+###
                   --remove)
 					# if $3 == true -> remove skel aswell
                     if [ $# -eq 2 ] || [ $# -eq 3 ] && [ -d "$QBIAN_DISK_DIR/$2" ]; then
@@ -160,6 +213,11 @@ while test $# -gt 0; do
                     fi
                     exit 0
                     ;;
+###
+# --ssh
+# 1 param, $1:ssh-string
+# ssh into a qbian image using the created ssh keys
+###
                     --ssh)
                       # $ qbian --ssh "user@127.0.0.1 -p 5522"
                       # $ qbian --ssh "user@192.168.1.100"
@@ -173,6 +231,11 @@ while test $# -gt 0; do
                       ssh -i $PROVISION/ssh/id_rsa $SSH_ARGS
                       exit 0
                     ;;
+###
+# --create-default
+# 0 params
+# Create the qbian default image which all should be created from
+###
                   --create-default)
                   if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
                       $QBIAN_TOOL_DIR/create-default
@@ -181,6 +244,11 @@ while test $# -gt 0; do
                     fi
                     exit 0
                     ;;
+###
+# --created-sd
+# 2 params, $1:device $2:skel-to-use
+# Create a qbian image straight onto an sd card
+###
                   --create-sd)
                     if test $# -eq 3; then
 						$QBIAN_TOOL_DIR/create-sd $2 $3
@@ -190,6 +258,11 @@ while test $# -gt 0; do
                     fi
                     exit 0
                   ;;
+###
+# --export
+# 2 params $1:image-name $2:device
+#
+###
                 --export)
                 NAME=$2
                 PATH=$3
@@ -202,12 +275,17 @@ while test $# -gt 0; do
                   fi
                   if [ -f $QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img ]; then
                     echo "Exporting $NAME to $PATH"
-                    /usr/bin/sudo /usr/bin/dd if=$QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img of=$PATH bs=4M
+                    $SUDO $DD if=$QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img of=$PATH bs=4M
                   else
                     echo "ERROR : No minibian image found"
                   fi
                   exit 0
                   ;;
+###
+# --import
+# 3 params $1:device|image-path $2:image-name $3:qbian-config
+# Import a qbian image into the qbian folder structure.
+###
                   --import)
                   PATH=$2
                   NAME=$3
@@ -223,13 +301,18 @@ while test $# -gt 0; do
                       /usr/bin/mkdir $QBIAN_DISK_DIR/$NAME && \
                       echo "$CONFIG" > $QBIAN_DISK_DIR/$NAME/config.qemu && \
                       echo "Importing $NAME to $PATH" && \
-                      /usr/bin/sudo /usr/bin/dd if=$PATH of=$QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img bs=4M && \
+                      $SUDO $DD if=$PATH of=$QBIAN_DISK_DIR/$NAME/2015-02-18-wheezy-minibian.img bs=4M && \
                       echo "Import complete - please chown the imported image"
                     else
                       echo "ERROR : image alread abailable"
                     fi
                     exit 0
                     ;;
+###
+# --clear
+# 0 params
+# Delete all images
+###
                 --clear)
                   rand=$RANDOM
                   mv $QBIAN_DISK_DIR/DISK-HERE.txt $BASE/$rand && \
@@ -242,4 +325,4 @@ while test $# -gt 0; do
                   exit 0
                 ;;
         esac
-done
+fi
