@@ -238,6 +238,10 @@ if [ "$#" -gt 0 ]; then
 ###
                   --create-default)
                   if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
+					  # Reset the hostname & hosts file
+					  # Note : git update-index --assume-unchanged injects/default/etc/hosts
+					  git checkout $BASE/injects/default/etc/hosts && \
+					  git checkout $BASE/injects/default/etc/hostname && \
                       $QBIAN_TOOL_DIR/create-default
                     else
                       echo "image \"default\" already available, use $ $package --run-img default 5522"
