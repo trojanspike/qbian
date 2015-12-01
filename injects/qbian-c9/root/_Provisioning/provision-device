@@ -8,5 +8,5 @@ apt-get update && apt-get -f install -y && apt-get upgrade -y && apt-get -f inst
 #@ Needs to be orig /boot -> do from qbian ??
 echo "Editing /boot/config.txt - note device is required" && \
 echo -e "dtparam=i2c1=on\ndtparam=i2c_arm=on\ndevice_tree=" >> /boot/config.txt && \
-rpi-serial-console disable && \
+/root/rpi-serial-console/rpi-serial-console disable && \
 echo "Complete Device Provisions"
