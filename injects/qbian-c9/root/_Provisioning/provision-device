@@ -7,4 +7,4 @@ apt-get update && apt-get -f install -y && apt-get upgrade -y && apt-get -f inst
 echo "Editing /boot/config.txt - note device is required" && \
 echo -e "dtparam=i2c1=on\ndtparam=i2c_arm=on\ndevice_tree=" >> /boot/config.txt && \
 rpi-serial-console disable && \
-echo "Complete" && sleep 2 && reboot
+echo "Complete Device Provisions"

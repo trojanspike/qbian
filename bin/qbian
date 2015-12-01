@@ -166,10 +166,6 @@ if [ "$#" -gt 0 ]; then
                   RESIZE=$4 # resize
                   BASE_IMAGE=$5 # base img path
 
-				  if [ -z $BASE_IMAGE ];then
-					BASE_IMAGE=default # Force use of default image if none defined
-				  fi
-
                   if [ ! -d $QBIAN_DISK_DIR/default ] && [ -z $DEFAULT_IMG ] ; then
                     echo "Default disk must be created before any others"
                     exit 1
@@ -181,12 +177,12 @@ if [ "$#" -gt 0 ]; then
                       mkdir -p $QBIAN_DISK_DIR/$NAME && \
                       if [ ! -d $BASE/injects/$NAME ]; then
                         rsync -avz $BASE/Provision/InjectSkeleton/* $BASE/injects/$NAME
-						if [ "$DEFAULT_IMG" == "true" ];then
-							cp $BASE/qbian.conf $BASE/injects/$NAME/root/qbian.conf && \
-							sed -i "s/{hostname}/$hostname/g" $BASE/injects/$NAME/etc/hostname && \
-							sed -i "s/{hostname}/$hostname/g" $BASE/injects/$NAME/etc/hosts
-						fi
                       fi
+					if [ "$DEFAULT_IMG" == "true" ];then
+						$(which cp) $BASE/qbian.conf $BASE/injects/$NAME/root/qbian.conf && \
+						sed -i "s/{hostname}/$hostname/g" $BASE/injects/$NAME/etc/hostname && \
+						sed -i "s/{hostname}/$hostname/g" $BASE/injects/$NAME/etc/hosts
+					fi
                       echo "$CONFIG" > $QBIAN_DISK_DIR/$NAME/config.qemu # && \
                       $QBIAN_MINIBIAN_DIR/minibian-qemu.sh $NAME "$BASE/injects/$NAME" "$RESIZE"
                     else
@@ -242,6 +238,10 @@ if [ "$#" -gt 0 ]; then
 ###
                   --create-default)
                   if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
+					  # Reset the hostname & hosts file
+					  # Note : git update-index --assume-unchanged injects/default/etc/hosts
+					  git checkout $BASE/injects/default/etc/hosts && \
+					  git checkout $BASE/injects/default/etc/hostname && \
                       $QBIAN_TOOL_DIR/create-default
                     else
                       echo "image \"default\" already available, use $ $package --run-img default 5522"
