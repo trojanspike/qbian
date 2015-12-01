@@ -12,15 +12,27 @@ One your code is as you want you can take advantage of the "qbain service" ~/ini
 You can create your own using the qbain cli tools set :
 
 ```bash
-$ qbian --create-img qbian "-redir tcp:8080::8080 -redir tcp:1374::1374" 3G
+& qbian --create-default # run the qemu provision & optional the device provision $ /root/Provision.sh
+$ qbian --create-img qbian-c9 "-redir tcp:8080::8080 -redir tcp:1374::1374" 2G default
 # this will create the image usable with the qbain cli - when complete
-$ qbian --run-img qbian 5522 # note that the image will run the provision script and installed whats needed
+$ qbian --run-img qbian-c9 5522
+# note that the image will run the provision script and installed whats needed
 # When launched you log in and install c9 sdk | ide
 $ qbian --ssh "qbain@127.0.0.1 -p 5522"
+# Provisioning will auto run
 # qbian:~/ $ ~/bin/c9-install
 # note that this will take a while depending on internet speeds - or not because it is has a lot to do
 # Finally enjoy 
-# If you want to contribute please do so : or to donate to the cause , again please do so. I'll have a paypal donate link soon
+
+# Files to edit:
+# /etc/network/interface.static : add your network info
+# /etc/network/interface.wifi : add your network info
+# /etc/wpa_supplicant/wpa_supplicant : add your network's wifi info
+# Enable $ cat /etc/network/interface.wifi > /etc/network/interface && sudo service networking restart
+# Or you can leave it as dynamic & use ethernet 
+
+# To enable strict SSH access 
+# $ sudo unlink /etc/ssh/sshd_config && sudo mv /etc/ssh/_sshd_config /etc/ssh/sshd_config && reboot
 ```
 
 
