@@ -61,7 +61,7 @@ sed -i "s/{USER}/$USER/g" /etc/sudoers.d/user-perm && \
 /bin/su - $USER -c "cd ~/ && nvm install iojs && nvm alias default iojs && npm i npm -g && npm i forever node-gyp coffee-script nodemon supervisor grunt bower -g && cd ~" && \
 sed -i "s/{USER}/$USER/g" /etc/init.d/qbian-c9 && \
 # install c9 ide
-# /bin/su - $USER -c "cd ~/ && c9-install" && \
+# /bin/su - $USER -c "cd ~/ && c9-install" && \ {uncomment if you want cloud9 to auto install}
 /bin/su - $USER -c "git clone https://github.com/trojanspike/qbian-server.git ~/Server" && \
 /bin/su - $USER -c "cd ~/Server && npm install" && \
 update-rc.d qbian-c9 defaults && \

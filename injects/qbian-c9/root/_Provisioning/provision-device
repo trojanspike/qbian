@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 clear && sleep 4 && \
+# Only upgrade when on device so that /boot can be updated & upgraded.
+# Note that pi /boot dir doesn't get mounted the same in the emulator compared to the device
 echo " Running provision for qemu environment "
 sleep 2 && \
 apt-get update && apt-get -f install -y && apt-get upgrade -y && apt-get -f install -y && \
