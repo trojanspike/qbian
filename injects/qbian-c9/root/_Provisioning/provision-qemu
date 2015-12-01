@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
+source /root/qbian.conf
+
 clear && sleep 4 && \
 echo " Running provision for device environment "
 sleep 2 && \
-USER=$user # form qbian.config
-PASS=$userpass # form qbian.config
-NEW_ROOT_PASS=$rootpass # form qbian.config
+USER="$user" # form qbian.config
+PASS="$userpass" # form qbian.config
+NEW_ROOT_PASS="$rootpass" # form qbian.config
 
 if [ -z "$USER" ] || [ -z "$PASS" ] || [  -z "$NEW_ROOT_PASS" ]; then
    echo "Error - no username or password"
@@ -56,9 +58,10 @@ ln -s ./rpi-serial-console/rpi-serial-console /usr/sbin/rpi-serial-console && \ 
 #
 chmod +x /etc/init.d/* && \
 sed -i "s/{USER}/$USER/g" /etc/sudoers.d/user-perm && \
-/bin/su - $USER -c "cd ~/ && nvm install iojs && nvm alias default iojs && npm i npm -g && npm i forever node-gyp coffee-script nodemon supervisor grunt bower -g && cd ~" && sed -i "s/{USER}/$USER/g" /etc/init.d/qbian-c9 && \
+/bin/su - $USER -c "cd ~/ && nvm install iojs && nvm alias default iojs && npm i npm -g && npm i forever node-gyp coffee-script nodemon supervisor grunt bower -g && cd ~" && \
+sed -i "s/{USER}/$USER/g" /etc/init.d/qbian-c9 && \
 # install c9 ide
-/bin/su - $USER -c "cd ~/ && git clone https://github.com/c9/core.git c9sdk" && \
+# /bin/su - $USER -c "cd ~/ && c9-install" && \
 /bin/su - $USER -c "git clone https://github.com/trojanspike/qbian-server.git ~/Server" && \
 /bin/su - $USER -c "cd ~/Server && npm install" && \
 update-rc.d qbian-c9 defaults && \
@@ -67,4 +70,4 @@ $NEW_ROOT_PASS
 $NEW_ROOT_PASS
 
 EFO
-echo "Complete : Rebooting -> 5 seconds" && sleep 5 && reboot
+echo "Complete Qemu provisions"
