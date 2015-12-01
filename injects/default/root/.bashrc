@@ -17,7 +17,7 @@ alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 
-if [ -f ~/qbian.config ];then
-	source ~/qbian.config
+if [ -f ~/qbian.conf ];then
+	source ~/qbian.conf
 fi
 
