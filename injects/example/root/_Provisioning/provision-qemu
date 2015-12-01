@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+source /root/qbian.conf
+
 clear && sleep 4 && \
 echo " Running provision for device environment "
 sleep 2 && \
@@ -8,15 +10,8 @@ sleep 2 && \
 # npm ls -g --depth=0 --parseable
 #@ http://www.raspberrypi-spy.co.uk/2014/11/enabling-the-i2c-interface-on-the-raspberry-pi/
 
-echo -n "Please enter the new users name [NO SPACES] : "
-read USER
-echo -n "Please enter the new users password [NO SPACES] : "
-read PASS
-
-if [ -z "$USER" ] || [ -z "$PASS" ]; then
-   echo "Error - no username or password"
-   exit 1
-fi
+USER="$user"
+PASS"$userpass"
 
 # Static IP
 # cat /etc/network/interface.static > /etc/network/interface && \
@@ -35,9 +30,6 @@ apt-get update && \
 #
 apt-get install minicom i2c-tools usbutils dh-autoreconf libi2c-dev resolvconf curl git-core vim iptables nano build-essential libstdc++6 gcc-4.8 g++-4.8 python python-smbus python-dev python3-dev python-pip -y && \
 apt-get install -y sudo && \
-## @ install raspi-config ??
-## Update for node runner
-## http://node-arm.herokuapp.com/
 update-alternatives --install /usr/bin/editor editor /usr/bin/vim 10 && \
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 20 && \
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.8 50 && \
@@ -98,13 +90,4 @@ sed -i "s/{USER}/$USER/g" /etc/init.d/app-start.sh && \
 update-rc.d tester.sh defaults && update-rc.d app-start.sh defaults && \
 cat /etc/network/interfaces.static > /etc/network/interfaces && \
 resolvconf -u && \
-echo "Complete : Rebooting -> 5 seconds" && sleep 5 && reboot
-
-# https://www.npmjs.com/package/forever
-# http://wiringpi.com/download-and-install/
-# iptables -t nat -A PREROUTING -p tcp --dport 1374 -j REDIRECT --to 80
-# http://kvz.io/blog/2009/12/15/run-nodejs-as-a-service-on-ubuntu-karmic/
-# iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000
-##
-
-exit 1
+echo "Complete ::: "
