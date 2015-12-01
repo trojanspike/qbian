@@ -30,7 +30,6 @@ case "$1" in
         ;;
 esac
 
-# update-rc.d qbian defaults
+# update-rc.d qbian-c9 defaults
 #
-# update-rc.d -f qbian remove
-# http://serverfault.com/questions/44400/run-a-shell-script-as-a-different-user
+# update-rc.d -f qbian-c9 remove
