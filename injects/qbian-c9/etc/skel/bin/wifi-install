@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+## WIFI tools
+sudo apt-get update && apt-get install -y firmware-ralink firmware-realtek wireless-tools wpasupplicant
+

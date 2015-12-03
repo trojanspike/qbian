@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+echo "Installing Docker" && \
+curl -sSL http://downloads.hypriot.com/docker-hypriot_1.8.2-1_armhf.deb > /tmp/docker-hypriot_1.8.2-1_armhf.deb && \
+sudo dpkg -i /tmp/docker-hypriot_1.8.2-1_armhf.deb && \
+
+# Group :: docker
