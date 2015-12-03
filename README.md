@@ -12,7 +12,7 @@ v 0.0.16
 * I just created this for myself & it's not perfect. People are more than welcome to use it, make changes & improve it.
 
 #### Envoironments Available:
-[ qbain cloud 9 IDE interface ](injects/qbian-c9)
+[ qbain cloud 9 IDE interface ](tree/dev/c9/injects/qbian-c9)
 
 _Add the cli into your bin_
 ```bash

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-VERSION=0.0.8
+VERSION=0.0.16
 
 # Directory to work in
 package=$( basename $0 );
