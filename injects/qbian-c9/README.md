@@ -56,5 +56,5 @@ note - you might want to do an update on ~/Server. Just for some examples
 $ cd ~/Server && git pull origin master
 ```
 
-![Cloud 9 IDE](/../images/qbian-c9ide.png?raw=true "C9 ide on qemu")
-![Node running task](/../images/qbian-noderun.png?raw=true "node tasks")
+![Cloud 9 IDE](https://raw.githubusercontent.com/trojanspike/qbian/images/qbian-c9ide.png?raw=true "C9 ide on qemu")
+![Node running task](https://raw.githubusercontent.com/trojanspike/qbian/images/qbian-noderun.png?raw=true "node tasks")
