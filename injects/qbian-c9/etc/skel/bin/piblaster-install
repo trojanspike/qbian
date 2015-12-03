@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo "pi blaster" && \
+git clone https://github.com/sarfata/pi-blaster.git /tmp/pi-blaster && cd /tmp/pi-blaster/ && \
+sudo ./autogen.sh && sudo ./configure && sudo make && sudo make install && cd ~/ && \
+sudo /etc/init.d/pi-blaster.boot.sh start && \
