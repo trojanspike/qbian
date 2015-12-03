@@ -13,14 +13,9 @@ if [ -z "$USER" ] || [ -z "$PASS" ] || [  -z "$NEW_ROOT_PASS" ]; then
    exit 1
 fi
 
-## ln -f /usr/share/zoneinfo/Europe/London /etc/localtime && \
 apt-get update && \
 chmod 0755 /etc/ && chmod 0644 /etc/bash.bashrc && \
-apt-get install libdevmapper1.02.1 minicom i2c-tools usbutils dh-autoreconf libi2c-dev resolvconf curl git-core vim iptables nano build-essential libstdc++6 gcc-4.8 g++-4.8 python python-smbus python-dev python3-dev python-pip -y && \
-apt-get install -y sudo && \
-## WIFI tools
-apt-get install -y firmware-ralink firmware-realtek wireless-tools wpasupplicant && \
-## @img -> software.img
+apt-get install libdevmapper1.02.1 minicom i2c-tools usbutils dh-autoreconf libi2c-dev resolvconf curl git-core vim iptables nano build-essential libstdc++6 gcc-4.8 g++-4.8 python python-smbus python-dev python3-dev python-pip sudo -y && \
 ## @ install raspi-config ??
 update-alternatives --install /usr/bin/editor editor /usr/bin/vim 10 && \
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.6 20 && \
@@ -34,21 +29,13 @@ sed -i "s/blacklist/#blacklist/g" /etc/modprobe.d/fbdev-blacklist.conf && \
 echo "Quick2Wire " && \
 git clone https://github.com/quick2wire/quick2wire-gpio-admin.git quck2wire && \
 cd quck2wire && make install && cd ~/ && \
-echo "pi blaster" && \
-git clone https://github.com/sarfata/pi-blaster.git && cd pi-blaster/ && \
-./autogen.sh && ./configure && make && make install && cd ~/ && \
-/etc/init.d/pi-blaster.boot.sh start && \
-echo "Installing Docker" && \
-curl -sSL http://downloads.hypriot.com/docker-hypriot_1.8.2-1_armhf.deb > /tmp/docker-hypriot_1.8.2-1_armhf.deb && \
-dpkg -i /tmp/docker-hypriot_1.8.2-1_armhf.deb && \
-## Should be already in skel
 git clone https://github.com/creationix/nvm.git /etc/skel/.nvm && cd /etc/skel/.nvm  && git checkout v0.25.4 && cd ~/ && \
 #Add user
-useradd --shell /bin/bash --create-home --groups gpio,i2c,sudo,dialout,docker --comment "Device user" $USER && passwd $USER <<EFO
+useradd --shell /bin/bash --create-home --groups gpio,i2c,sudo,dialout --comment "Device user" $USER && passwd $USER <<EFO
 $PASS
 $PASS
 EFO
-# Needs to be on device
+# Link i2c* to local home bin, Permissions to run these are enabled.
 ln -s /usr/sbin/i2cdetect /home/$USER/bin/i2cdetect && \
 ln -s /usr/sbin/i2cdump /home/$USER/bin/i2cdump && \
 ln -s /usr/sbin/i2cget /home/$USER/bin/i2cget && \
@@ -58,12 +45,11 @@ ln -s ./rpi-serial-console/rpi-serial-console /usr/sbin/rpi-serial-console && \ 
 #
 chmod +x /etc/init.d/* && \
 sed -i "s/{USER}/$USER/g" /etc/sudoers.d/user-perm && \
-/bin/su - $USER -c "cd ~/ && nvm install iojs && nvm alias default iojs && npm i npm -g && npm i forever node-gyp coffee-script nodemon supervisor grunt bower -g && cd ~" && \
+/bin/su - $USER -c "cd ~/ && nvm install iojs && nvm alias default iojs && npm i npm -g && npm i forever node-gyp bower -g && cd ~" && \
 sed -i "s/{USER}/$USER/g" /etc/init.d/qbian-c9 && \
 # install c9 ide
 # /bin/su - $USER -c "cd ~/ && c9-install" && \ {uncomment if you want cloud9 to auto install}
 /bin/su - $USER -c "git clone https://github.com/trojanspike/qbian-server.git ~/Server" && \
-/bin/su - $USER -c "cd ~/Server && npm install" && \
 update-rc.d qbian-c9 defaults && \
 passwd root <<EFO
 $NEW_ROOT_PASS
