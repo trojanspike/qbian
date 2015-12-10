@@ -70,6 +70,9 @@ note :
 * qbian-kodi : Kodi player with user auto login to kodi
 * qbian-lightdm	:	debian display manager
 
+#### Known issues
+* When kpartx is ran it might auto mount which will cause the cli to exit on an error. 
+
 #### TODO:
 
 - [ ] Output stdout to log file /imageName/output.log

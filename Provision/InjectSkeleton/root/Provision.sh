@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+if [ ! -f /root/qbian.conf ];then
+	echo "Error : qbian.conf not found"
+	exit 1
+fi
+
+source /root/qbian.conf
+
 IS_DEVICE=$1
 DEBIAN_FRONTEND=noninteractive
 function provision_qemu(){
