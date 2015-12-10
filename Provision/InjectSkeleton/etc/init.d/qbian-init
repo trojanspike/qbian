@@ -9,32 +9,11 @@
 # Description:       Enable service provided by daemon.
 ### END INIT INFO
 
-# This will be the only change I'll have made differ from the minibian image
-# a symbolic link will be actived linking here,
-# Should make it easier for provisioning .
 
-# activate it with $ update-rc.d qbian-provision defaults
-
-# Or you can use the image I have with this feature already build in,
-# see /Provision/minibian/BASE_IMAGE_TAR_URL for info & to set the default
 case "$1" in
     start)
-      NAME=$(cat /root/release)
-      if [ ! -d /qbianProvision ]; then
-        mkdir /qbianProvision
-      fi
-      if [ -d /sys/class/gpio/ ]; then
-        if [ ! -f /qbianProvision/$NAME-device ]; then
-          /root/Provision.sh true && echo $(date +"%s") > /qbianProvision/$NAME-device
-        else
-          echo "$NAME provisioned from device $(cat /qbianProvision/$NAME-device)"
-        fi
-      else
-        if [ ! -f /qbianProvision/$NAME-qemu ]; then
-          /root/Provision.sh false && echo $(date +"%s") > /qbianProvision/$NAME-qemu
-        else
-          echo "$NAME provisioned from qemu $(cat /qbianProvision/$NAME-qemu)"
-        fi
+      if [ -d /home/qbian/init-service.sh ];then
+        /home/qbian/init-service.sh start
       fi
         ;;
     restart|reload|force-reload)

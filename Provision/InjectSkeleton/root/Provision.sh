@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
 IS_DEVICE=$1
-
+DEBIAN_FRONTEND=noninteractive
 function provision_qemu(){
-	apt-get update
+	apt-get update && apt-get install curl python python-smbus python-dev python3-dev python-pip -y && \
+	# make the qbia-init service start
+	update-rc.d qbian-init defaults
 }
 
 function provision_device(){
