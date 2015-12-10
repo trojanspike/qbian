@@ -321,7 +321,9 @@ if [ "$#" -gt 0 ]; then
                   rand=$RANDOM
                   mv $QBIAN_DISK_DIR/DISK-HERE.txt $BASE/$rand && \
                   rm -Rf $QBIAN_DISK_DIR/* && \
-                  mv $BASE/$rand $QBIAN_DISK_DIR/DISK-HERE.txt
+                  mv $BASE/$rand $QBIAN_DISK_DIR/DISK-HERE.txt && \
+				  rm -Rf $PROVISION/ssh/* && touch $PROVISION/ssh/.gitindex && \
+				  rm -Rf $PROVISION/minibian/*.img && \
                   exit 0
                   ;;
                 *)
