@@ -26,7 +26,7 @@ DD=$(which dd)
 if [ "$#" -gt 0 ]; then
         case "$1" in
 ####
-# help 
+# help
 # Display cli commands and options
 ####
                 -h|--help)
@@ -126,7 +126,8 @@ if [ "$#" -gt 0 ]; then
                 --list)
                       echo "----------------------------------------|"
                   if [ ! -d $QBIAN_DISK_DIR/default/ ]; then
-                    echo "ERR : Default image needs to be created"
+                    echo "Default image needs to be created"
+                    echo "$ $package --create-default"
                       echo "----------------------------------------|"
                     exit 2
                   fi
