@@ -1,4 +1,4 @@
-# qbian-c9 : Cloud9-ide
+# qbian-c9 :
 
 
 #### A place to give users info
