@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+<<<<<<< HEAD
 if [ ! -f /root/qbian.conf ];then
 	echo "Error : qbian.conf not found"
 	exit 1
@@ -13,6 +14,12 @@ function provision_qemu(){
 	apt-get update && apt-get install curl python python-smbus python-dev python3-dev python-pip -y && \
 	# make the qbia-init service start
 	update-rc.d qbian-init defaults
+=======
+IS_DEVICE=$1
+
+function provision_qemu(){
+	apt-get update
+>>>>>>> 0982c1e1e974a79e811737de9dae5356d45420d5
 }
 
 function provision_device(){
