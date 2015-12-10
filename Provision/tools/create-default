@@ -4,5 +4,9 @@ ssh-keygen -t rsa -f $PROVISION/ssh/id_rsa -N "" -C "$user@$hostname" && \
 # Q : hostname > /etc/hostname & other hosts in /injects/skel
 # Q : default user :: > USER@HOSTNAME
 cat $PROVISION/ssh/id_rsa.pub > $PROVISION/ssh/authorized_keys && \
+if [ -f ~/.ssh/id_rsa.pub ];then
+  # insert the home ssh public key
+  cat ~/.ssh/id_rsa.pub >> $PROVISION/ssh/authorized_keys
+fi
 export DEFAULT_IMG=true && \
 $BASE/bin/qbian --create-img default "" 538M
