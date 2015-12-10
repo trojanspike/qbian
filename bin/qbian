@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-VERSION=0.0.16
-
 # Directory to work in
 package=$( basename $0 );
 BASE=$( dirname "$0" )
@@ -18,6 +16,8 @@ export "QBIAN_DISK_DIR=$QBIAN_DISK_DIR"
 export "QBIAN_MINIBIAN_DIR=$QBIAN_MINIBIAN_DIR"
 export "QBASE=$BASE/qemu_boot"
 source $BASE/qbian.conf
+
+VERSION=$version
 
 # Local scripts files
 SUDO=$(which sudo)

@@ -1,6 +1,6 @@
 # (qbian) qemu + minibian :: qbian
 
-v 0.0.16
+v 0.0.21
 
 #### A cli tool-set to help create & provision minibian images
 
@@ -71,7 +71,7 @@ note :
 * qbian-lightdm	:	debian display manager
 
 #### Known issues
-* When kpartx is ran it might auto mount which will cause the cli to exit on an error. 
+* When kpartx is ran it might auto mount which will cause the cli to exit on an error.
 
 #### TODO:
 
