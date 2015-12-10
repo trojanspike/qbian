@@ -11,6 +11,8 @@ v 0.0.21
 * Automated provisioning & easy replication with imports & exports.
 * I just created this for myself & it's not perfect. People are more than welcome to use it, make changes & improve it.
 
+![Splash](https://raw.githubusercontent.com/trojanspike/qbian/images/qbian-raspflash.jpg "Splash image")
+
 #### Envoironments Available:
 [ qbain cloud 9 IDE interface ](https://github.com/trojanspike/qbian/tree/dev/c9/injects/qbian-c9)
 
