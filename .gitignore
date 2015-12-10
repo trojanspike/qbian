@@ -6,7 +6,7 @@ Provision/disks/default/2015-02-18-wheezy-minibian.img
 Provision/minibian/*.tar
 
 Provision/ssh/*
-!Provision/ssh/gitindex
+!Provision/ssh/.gitindex
 
 # ignore hostname & hosts file vars changed
 injects/default/etc/hostname
