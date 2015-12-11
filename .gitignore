@@ -15,3 +15,6 @@ injects/default/etc/hosts
 injects/default/root/qbian.conf
 
 .vagrant/
+.bash_history
+.cache/
+.viminfo
