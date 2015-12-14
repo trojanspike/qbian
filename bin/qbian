@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Directory to work in
-package=$( basename $0 );
+export package=$( basename $0 );
 BASE=$( dirname "$0" )
 BASE=$( cd "$BASE/../" && pwd )
 
@@ -10,11 +10,12 @@ QBIAN_MINIBIAN_DIR="$BASE/Provision/minibian"
 QBIAN_TOOL_DIR="$BASE/Provision/tools"
 
 # Qbian cli exports
-export "BASE=$BASE"
-export "PROVISION=$BASE/Provision"
-export "QBIAN_DISK_DIR=$QBIAN_DISK_DIR"
-export "QBIAN_MINIBIAN_DIR=$QBIAN_MINIBIAN_DIR"
-export "QBASE=$BASE/qemu_boot"
+export BASE="$BASE"
+export PROVISION="$BASE/Provision"
+export QBIAN_DISK_DIR="$QBIAN_DISK_DIR"
+export QBIAN_MINIBIAN_DIR="$QBIAN_MINIBIAN_DIR"
+export QBASE="$BASE/qemu_boot"
+export EXE="$BASE/bin/qbian"
 source $BASE/qbian.conf
 
 VERSION=$version
@@ -328,7 +329,12 @@ if [ "$#" -gt 0 ]; then
                   exit 0
                   ;;
                 *)
+				# target file : v0.1.* to use this strat
+				if [ -f $QBIAN_TOOL_DIR/$1 ];then
+					$QBIAN_TOOL_DIR/$1 $@
+				else
                   $BASE/bin/qbian --help && exit 0
+				fi
                   exit 0
                 ;;
         esac
