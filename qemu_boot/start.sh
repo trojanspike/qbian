@@ -9,6 +9,15 @@ if [ ! $# -eq 3 ]; then
   exit 0
 fi
 
+CONSOLE=""
+EXTRA_CONFIG=""
+if [ $consoleOnly == true ];then
+	CONSOLE="console=ttyAMA0 console=ttyS0"
+	EXTRA_CONFIG="-nographic -serial mon:stdio"
+else
+	EXTRA_CONFIG="-serial mon:stdio"
+fi
+
 IMAGE=$1
 SSH_PORT=$2
 CONFIG=$3
@@ -19,9 +28,9 @@ qemu-system-arm -kernel $QBASE/kernel-qemu \
 -m 1024 \
 -M versatilepb \
 -no-reboot \
--append root="/dev/sda2 panic=1 format=ext4 rootfstype=ext4 rw" \
+-append root="/dev/sda2 panic=1 format=ext4 rootfstype=ext4 rw $CONSOLE" \
 -hda $IMAGE \
 -redir tcp:$SSH_PORT::22 \
--serial stdio \
+$EXTRA_CONFIG \
 $CONFIG
 #####################################################################
