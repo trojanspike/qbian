@@ -18,7 +18,7 @@ export QBASE="$BASE/qemu_boot"
 export EXE="$BASE/bin/qbian"
 source $BASE/qbian.conf
 
-VERSION=$version
+export VERSION=$version
 
 # Local scripts files
 SUDO=$(which sudo)
@@ -80,7 +80,7 @@ if [ "$#" -gt 0 ]; then
 # Display cli version
 ###
 				--version|-v)
-					echo "V $VERSION";
+					$EXE version
 					exit 0;
 				;;
 ###
