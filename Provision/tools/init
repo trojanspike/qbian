@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+PWD=$(pwd)
+
+touch $PWD/Qbianfile.js && \
+mkdir $PWD/.disks

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+PWD=$(pwd)
+
+
+if [ ! -f "$PWD/Qbianfile.js" ];then
+	echo "Qbianfile.js not found, please use \"$ $package init\""
+	exit 1
+fi
+
+
