@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 # Directory to work in
 export package=$( basename $0 );
+PWD=$(pwd)
 BASE=$( dirname "$0" )
 BASE=$( cd "$BASE/../" && pwd )
 
 # Local qbian directories
 QBIAN_DISK_DIR="$BASE/Provision/disks"
+
 QBIAN_MINIBIAN_DIR="$BASE/Provision/minibian"
 QBIAN_TOOL_DIR="$BASE/Provision/tools"
 
@@ -19,6 +21,11 @@ export EXE="$BASE/bin/qbian"
 source $BASE/qbian.conf
 
 export VERSION=$version
+
+@ Check if -d $PWD/.Qbian
+if [ -d $PWD/.disks ];then
+	QBIAN_DISK_DIR=$PWD/.disks
+fi
 
 # Local scripts files
 SUDO=$(which sudo)
