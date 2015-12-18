@@ -18,13 +18,25 @@ export QBIAN_DISK_DIR="$QBIAN_DISK_DIR"
 export QBIAN_MINIBIAN_DIR="$QBIAN_MINIBIAN_DIR"
 export QBASE="$BASE/qemu_boot"
 export EXE="$BASE/bin/qbian"
+export SSH="$PROVISION/ssh"
+export INJECTS="$BASE/injects"
 source $BASE/qbian.conf
 
 export VERSION=$version
 
-@ Check if -d $PWD/.Qbian
-if [ -d $PWD/.disks ];then
-	QBIAN_DISK_DIR=$PWD/.disks
+# @ Check if -d $PWD/.Qbian
+if [ ! "$1" == "init" ];then
+	# Quick work around for time being
+	# TODO :: Improve on
+	if [ -d "$PWD/.Qbian/disks" ] && [ -d "$PWD/.Qbian/ssh" ] && [ -f "$PWD/qbian.conf" ];then
+		export QBIAN_DISK_DIR="$PWD/.Qbian/disks"
+		export SSH="$PWD/.Qbian/ssh"
+		export INJECTS="$PWD/injects"
+		source $PWD/qbian.conf
+	else
+		echo "Qbian Environment not found. Run $ $package init <package-name>"
+		exit 1
+	fi
 fi
 
 # Local scripts files
@@ -155,9 +167,9 @@ if [ "$#" -gt 0 ]; then
                 --skel)
                   if [ $# -eq 2 ]; then
                     NAME=$2
-					if [ ! -d $BASE/injects/$NAME ];then
-                    	rsync -avz $BASE/Provision/InjectSkeleton/* $BASE/injects/$NAME
-					fi
+									if [ ! -d $INJECTS/$NAME ];then
+				                    	rsync -avz $BASE/Provision/InjectSkeleton/* $INJECTS/$NAME
+									fi
                   else
                     echo "Not enough params $ qbian --skel <NAME>"
                   fi
@@ -184,16 +196,16 @@ if [ "$#" -gt 0 ]; then
                     fi
                     if [ ! -d "$QBIAN_DISK_DIR/$NAME" ]; then
                       mkdir -p $QBIAN_DISK_DIR/$NAME && \
-                      if [ ! -d $BASE/injects/$NAME ]; then
-                        rsync -avz $BASE/Provision/InjectSkeleton/* $BASE/injects/$NAME
+                      if [ ! -d $INJECTS/$NAME ]; then
+                        rsync -avz $BASE/Provision/InjectSkeleton/* $INJECTS/$NAME
                       fi
 					if [ "$DEFAULT_IMG" == "true" ];then
-						$(which cp) $BASE/qbian.conf $BASE/injects/$NAME/root/qbian.conf && \
-						sed -i "s/{hostname}/$hostname/g" $BASE/injects/$NAME/etc/hostname && \
-						sed -i "s/{hostname}/$hostname/g" $BASE/injects/$NAME/etc/hosts
+						$(which cp) $BASE/qbian.conf $INJECTS/$NAME/root/qbian.conf && \
+						sed -i "s/{hostname}/$hostname/g" $INJECTS/$NAME/etc/hostname && \
+						sed -i "s/{hostname}/$hostname/g" $INJECTS/$NAME/etc/hosts
 					fi
                       echo "$CONFIG" > $QBIAN_DISK_DIR/$NAME/config.qemu # && \
-                      $QBIAN_MINIBIAN_DIR/minibian-qemu.sh $NAME "$BASE/injects/$NAME" "$RESIZE"
+                      $QBIAN_MINIBIAN_DIR/minibian-qemu.sh $NAME "$INJECTS/$NAME" "$RESIZE"
                     else
                       echo "Image \"$NAME\" is already available, use $ qbian --run $NAME <SSH>"
                       echo $QBIAN_DISK_DIR/$NAME
@@ -215,7 +227,7 @@ if [ "$#" -gt 0 ]; then
                     if [ $# -eq 2 ] || [ $# -eq 3 ] && [ -d "$QBIAN_DISK_DIR/$2" ]; then
                       rm -Rfv $QBIAN_DISK_DIR/$2
 						if [ "$3" == "true" ];then
-							rm -Rfv $BASE/injects/$2
+							rm -Rfv $INJECTS/$2
 						fi
                     else
                       echo "Error --remove , $2 not found"
@@ -237,7 +249,7 @@ if [ "$#" -gt 0 ]; then
                         exit 2
                       fi
                       SSH_ARGS=$2
-                      ssh -i $PROVISION/ssh/id_rsa $SSH_ARGS
+                      ssh -i $SSH/id_rsa $SSH_ARGS
                       exit 0
                     ;;
 ###
@@ -247,10 +259,13 @@ if [ "$#" -gt 0 ]; then
 ###
                   --create-default)
                   if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
-					  # Reset the hostname & hosts file
-					  # Note : git update-index --assume-unchanged injects/default/etc/hosts
-					  git checkout $BASE/injects/default/etc/hosts && \
-					  git checkout $BASE/injects/default/etc/hostname && \
+								  # Reset the hostname & hosts file
+								  # Note : git update-index --assume-unchanged injects/default/etc/hosts
+									# TODO :: Check hhis -> needed ??
+								  # if [ -d "/.git" ];then
+									#	git checkout $BASE/injects/default/etc/hosts && \
+									#  git checkout $BASE/injects/default/etc/hostname && \
+									# fi
                       $QBIAN_TOOL_DIR/create-default
                     else
                       echo "image \"default\" already available, use $ $package --run-img default 5522"
@@ -331,7 +346,7 @@ if [ "$#" -gt 0 ]; then
                   mv $QBIAN_DISK_DIR/DISK-HERE.txt $BASE/$rand && \
                   rm -Rf $QBIAN_DISK_DIR/* && \
                   mv $BASE/$rand $QBIAN_DISK_DIR/DISK-HERE.txt && \
-				  rm -Rf $PROVISION/ssh/* && touch $PROVISION/ssh/.gitindex && \
+				  rm -Rf $SSH/* && touch $SSH/.gitindex && \
 				  rm -Rf $PROVISION/minibian/*.img && \
                   exit 0
                   ;;

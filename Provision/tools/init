@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 PWD=$(pwd)
+FOLDER=$2
 
-touch $PWD/Qbianfile.js && \
-mkdir $PWD/.disks
+function create(){
+  mkdir $PWD/$FOLDER && rsync -avz $BASE/Provision/InitSkel/* $PWD/$FOLDER && mv $PWD/$FOLDER/Qbian $PWD/$FOLDER/.Qbian
+  exit 0
+}
+
+if [ ! -z $FOLDER ] && [ ! -d $PWD/$FOLDER ];then
+  create
+else
+  if [ -d $PWD/$FOLDER ] && [ ! -z $FOLDER ];then
+    echo "\"$FOLDER\" already available. Cannot overwrite."
+    exit 1
+  else
+    echo "Params required. $ $package init <package-name>"
+    exit 1
+  fi
+fi
