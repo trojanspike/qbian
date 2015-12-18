@@ -72,8 +72,8 @@ function doProvision(){
 	# Skel
 	sudo echo "$NAME" > $INJECT/root/release && \
 	sudo rsync -avz $INJECT/* $QBIAN_DISK_DIR/$NAME/root_mount/ && \
-	sudo rsync -avz $PROVISION/ssh/* $QBIAN_DISK_DIR/$NAME/root_mount/etc/skel/.ssh/ && \
-	sudo rsync -avz $PROVISION/ssh/* $QBIAN_DISK_DIR/$NAME/root_mount/root/.ssh/ && \
+	sudo rsync -avz $SSH/* $QBIAN_DISK_DIR/$NAME/root_mount/etc/skel/.ssh/ && \
+	sudo rsync -avz $SSH/* $QBIAN_DISK_DIR/$NAME/root_mount/root/.ssh/ && \
 	# Clear out the new image ssh keys , this might be an import from a previously created image
 	# i.e $ qbian --create-img docker "-redir tcp:1374::1374" ~/path/to/inject/ 400M default
 	sudo chown -R root:root $QBIAN_DISK_DIR/$NAME/root_mount/* && \
@@ -117,10 +117,4 @@ fi
 #############################################################################################
 # fallocate -l 2.7G minibian-disk.img &&
 # Provision = user / root home ??
-exit 1
-#@ skel :: TODO -> login only over ssh , new key required
-## http://dbushell.com/2013/01/27/multiple-accounts-and-ssh-keys/
-## http://support.hostgator.com/articles/specialized-help/technical/how-to-disable-password-authentication-for-ssh
-ssh-keygen -t rsa -f ./RootInject/.ssh/sshKey -C "your_email@youremail.com"
-cat ./ssh/sshKey.pub > ./skel/.ssh/authorized_keys
-mkdir PI:/root/.ssh @ cat ./ssh/sshKey.pub > PI:/root/.ssh/authorized_keys
+exit 0

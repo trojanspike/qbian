@@ -199,11 +199,11 @@ if [ "$#" -gt 0 ]; then
                       if [ ! -d $INJECTS/$NAME ]; then
                         rsync -avz $BASE/Provision/InjectSkeleton/* $INJECTS/$NAME
                       fi
-					if [ "$DEFAULT_IMG" == "true" ];then
-						$(which cp) $BASE/qbian.conf $INJECTS/$NAME/root/qbian.conf && \
-						sed -i "s/{hostname}/$hostname/g" $INJECTS/$NAME/etc/hostname && \
-						sed -i "s/{hostname}/$hostname/g" $INJECTS/$NAME/etc/hosts
-					fi
+										if [ "$DEFAULT_IMG" == "true" ];then
+											$(which cp) $PWD/qbian.conf $INJECTS/$NAME/root/qbian.conf && \
+											sed -i "s/{hostname}/$hostname/g" $INJECTS/$NAME/etc/hostname && \
+											sed -i "s/{hostname}/$hostname/g" $INJECTS/$NAME/etc/hosts
+										fi
                       echo "$CONFIG" > $QBIAN_DISK_DIR/$NAME/config.qemu # && \
                       $QBIAN_MINIBIAN_DIR/minibian-qemu.sh $NAME "$INJECTS/$NAME" "$RESIZE"
                     else
