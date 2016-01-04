@@ -10,4 +10,4 @@ export consoleOnly=false
 export defaultUpImg=default
 export defaultUpPort=5522
 
-export version=0.1.0
+export version=0.1.3

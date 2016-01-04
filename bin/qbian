@@ -2,7 +2,8 @@
 # Directory to work in
 export package=$( basename $0 );
 PWD=$(pwd)
-BASE=$( dirname "$0" )
+BASE=$(readlink -f "$0")
+BASE=$(dirname "$BASE")
 BASE=$( cd "$BASE/../" && pwd )
 
 # Local qbian directories
@@ -21,7 +22,6 @@ export EXE="$BASE/bin/qbian"
 export SSH="$PROVISION/ssh"
 export INJECTS="$BASE/injects"
 
-
 # @ Check if -d $PWD/.Qbian
 if [ ! "$1" == "init" ];then
 	# Quick work around for time being
@@ -36,7 +36,9 @@ if [ ! "$1" == "init" ];then
 	fi
 fi
 
-source $PWD/Qbianfile
+if [ -f $PWD/Qbianfile ];then
+	source $PWD/Qbianfile
+fi
 export VERSION=$version
 
 # Local scripts files
@@ -339,18 +341,18 @@ if [ "$#" -gt 0 ]; then
                   mv $QBIAN_DISK_DIR/DISK-HERE.txt $BASE/$rand && \
                   rm -Rf $QBIAN_DISK_DIR/* && \
                   mv $BASE/$rand $QBIAN_DISK_DIR/DISK-HERE.txt && \
-				  rm -Rf $SSH/* && touch $SSH/.gitindex && \
-				  rm -Rf $PROVISION/minibian/*.img && \
+								  rm -Rf $SSH/* && touch $SSH/.gitindex && \
+								  rm -Rf $PROVISION/minibian/*.img && \
                   exit 0
                   ;;
                 *)
-				# target file : v0.1.* to use this strat
-				if [ -f $QBIAN_TOOL_DIR/$1 ];then
-					$QBIAN_TOOL_DIR/$1 $@
-				else
-                  $BASE/bin/qbian --help && exit 0
-				fi
-                  exit 0
-                ;;
+						# target file : v0.1.* to use this strat
+						if [ -f $QBIAN_TOOL_DIR/$1 ];then
+							$QBIAN_TOOL_DIR/$1 $@
+						else
+              $BASE/bin/qbian --help && exit 0
+						fi
+              exit 0
+            ;;
         esac
 fi
