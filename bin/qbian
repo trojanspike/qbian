@@ -22,9 +22,6 @@ export SSH="$PROVISION/ssh"
 export INJECTS="$BASE/injects"
 
 
-export VERSION=$version
-
-
 # @ Check if -d $PWD/.Qbian
 if [ ! "$1" == "init" ];then
 	# Quick work around for time being
@@ -40,6 +37,7 @@ if [ ! "$1" == "init" ];then
 fi
 
 source $PWD/Qbianfile
+export VERSION=$version
 
 # Local scripts files
 SUDO=$(which sudo)
