@@ -1,6 +1,6 @@
 # (qbian) qemu + minibian :: qbian
 
-v 0.1.0
+v 0.1.4
 
 #### A cli tool-set to help create & provision minibian images
 
@@ -21,6 +21,10 @@ _Add the cli into your bin_
 $ git clone -b {release} {url}
 $ ln -f /path/to/qbain/package/bin/qbain ~/bin/qbain
 ```
+_Or install with npm_
+```
+$ npm install qbian-cli -g
+```
 
 #### _Quick example_
 
@@ -34,9 +38,9 @@ $ qbain --ssh "root@127.0.0.1 -p 5522"
 # At root home directory there'll be a Provision file to run
 $ ./Provision.sh # all done halt image
 # create a new image based on the default updated img
-$ qbian --create-img updated "-redir tcp:8080::8080" 1G default # create new images using the default img, Injects/updated folder required
+$ qbian --create-img updated "-redir tcp:8080::8080" 1G # create new images using the default img, Injects/updated folder required
 $ qbian --list # list the images
-# Use an already configured provion i.e "example" one I've created
+# Use an already configured provsion i.e "example" one I've created
 $ qbian --create-img example "-redir tcp:1374::1374 -redir tcp:8080::8080" 1G
 # The example provision script will take a little while to complete. Add a user & password perdefined. add nvm & iojs with forever to run node. Add a quick express server & runs this at start up.
 # Push to sd card - fdisk -l :: /dev/sdc < sd card >
@@ -50,6 +54,7 @@ $ qbian --export example /dev/sdc
 #### _cli commands_
 * --help { 0 args } Show help
 * --create-default { 0 args } Create the default image
+* --create-img { 3 args } [ img-name , config , resize-img ] Create an image
 * --run-img { 2 args } [ image-name , ssh-port ] Run an image in qemu
 * --run-sd { 2 arg } [ sd-path, ssh-port ] Run an sd image in qemu
 * --skel { 1 arg } [ skel-name ] Create a new empty skel with necessary files
