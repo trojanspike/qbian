@@ -24,15 +24,16 @@ source $BASE/qbian.conf
 
 export VERSION=$version
 
+
 # @ Check if -d $PWD/.Qbian
 if [ ! "$1" == "init" ];then
 	# Quick work around for time being
 	# TODO :: Improve on
-	if [ -d "$PWD/.Qbian/disks" ] && [ -d "$PWD/.Qbian/ssh" ] && [ -f "$PWD/qbian.conf" ];then
+	if [ -d "$PWD/.Qbian/disks" ] && [ -d "$PWD/.Qbian/ssh" ] && [ -f "$PWD/Qbianfile" ];then
 		export QBIAN_DISK_DIR="$PWD/.Qbian/disks"
 		export SSH="$PWD/.Qbian/ssh"
 		export INJECTS="$PWD/injects"
-		source $PWD/qbian.conf
+		source $PWD/Qbianfile
 	else
 		echo "Qbian Environment not found. Run $ $package init <package-name>"
 		exit 1
