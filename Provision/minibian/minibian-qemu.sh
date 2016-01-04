@@ -10,7 +10,8 @@ if [ ! -z $3 ]; then
 fi
 
 if [ -z "$BASE_IMAGE" ]; then
-	BASE_IMAGE=$QBIAN_MINIBIAN_DIR/2015-02-18-wheezy-minibian.img
+	# QBIAN_DISK_DIR = QBIAN_MINIBIAN_DIR
+	BASE_IMAGE=$QBIAN_DISK_DIR/2015-02-18-wheezy-minibian.img
 fi
 
 if [ "$(whoami)" != "root" ]; then
@@ -32,8 +33,8 @@ function sleep3(){
 function getMinibian(){
 	# curl -L $( cat $QBIAN_MINIBIAN_DIR/BASE_IMAGE_TAR_URL | sed -n 1p ) -o $QBIAN_MINIBIAN_DIR/minibian.gz.tar && \
 	# Use image defined in the qbian.conf file
-	curl -L $minibain_img_url -o $QBIAN_MINIBIAN_DIR/minibian.gz.tar && \
-	tar -zxvf $QBIAN_MINIBIAN_DIR/minibian.gz.tar -C $QBIAN_MINIBIAN_DIR && unlink $QBIAN_MINIBIAN_DIR/minibian.gz.tar
+	curl -L $minibain_img_url -o $QBIAN_DISK_DIR/minibian.gz.tar && \
+	tar -zxvf $QBIAN_DISK_DIR/minibian.gz.tar -C $QBIAN_DISK_DIR && unlink $QBIAN_DISK_DIR/minibian.gz.tar
 }
 
 function ensureUmount(){
@@ -107,7 +108,7 @@ EFO
 	sudo kpartx -vd ./2015-02-18-wheezy-minibian.img && ensureUmount && sudo sync && sudo rm -Rf $QBIAN_DISK_DIR/$NAME/{root_mount,root} && finish
 }
 # Start
-if [ -f "$QBIAN_MINIBIAN_DIR/2015-02-18-wheezy-minibian.img" ]; then
+if [ -f "$QBIAN_DISK_DIR/2015-02-18-wheezy-minibian.img" ]; then
 	doProvision && finish
 else
 	# cp , minibian.img > /$2
