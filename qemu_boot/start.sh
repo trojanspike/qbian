@@ -18,6 +18,10 @@ else
 	EXTRA_CONFIG="-serial mon:stdio"
 fi
 
+if [ -z $memory ];then
+  memory=512
+fi
+
 IMAGE=$1
 SSH_PORT=$2
 CONFIG=$3
@@ -25,7 +29,7 @@ CONFIG=$3
 ###################################################
 qemu-system-arm -kernel $QBASE/kernel-qemu \
 -cpu arm1176 \
--m 1024 \
+-m $memory \
 -M versatilepb \
 -no-reboot \
 -append root="/dev/sda2 panic=1 format=ext4 rootfstype=ext4 rw $CONSOLE" \
