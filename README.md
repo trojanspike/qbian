@@ -21,6 +21,10 @@ _Add the cli into your bin_
 $ git clone -b {release} {url}
 $ ln -f /path/to/qbain/package/bin/qbain ~/bin/qbain
 ```
+_Or install with npm_
+```
+$ npm install qbian-cli -g
+```
 
 #### _Quick example_
 
