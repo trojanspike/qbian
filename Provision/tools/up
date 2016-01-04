@@ -1,13 +1,3 @@
 #!/usr/bin/env bash
-PWD=$(pwd)
 
-IMG=default
-PORT=5522
-if [ ! -z "$2" ];then
-	IMG=$2
-fi
-if [ ! -z "$3" ];then
-	PORT=$3
-fi
-
-$EXE --run-img $IMG $PORT
+$EXE --run-img $defaultUpImg $defaultUpPort

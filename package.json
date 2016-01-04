@@ -1,6 +1,28 @@
-{ "name": "qbian-cli"
-, "version": "0.1.0"
-, "bin" : {
+{
+  "name": "qbian-cli",
+  "version": "0.1.0",
+  "description": "A cli tool-set to help create & provision minibian images. Raspberry pi",
+  "main": "null",
+  "scripts": {
+    "start": "qbian --create-default"
+  },
+  "bin" : {
     "qbian" : "./bin/qbian"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trojanspike/qbian.git"
+  },
+  "keywords": [
+    "emulate",
+    "raspberry",
+    "pi",
+    "qemu"
+  ],
+  "author": "Lee McKay <v3047-github@yahoo.co.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/trojanspike/qbian/issues"
+  },
+  "homepage": "https://github.com/trojanspike/qbian#readme"
 }

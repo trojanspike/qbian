@@ -7,4 +7,7 @@ export minibain_img_url=http://sourceforge.net/projects/minibian/files/2015-02-1
 
 export consoleOnly=false
 
+export defaultUpImg=default
+export defaultUpPort=5522
+
 export version=0.1.0
