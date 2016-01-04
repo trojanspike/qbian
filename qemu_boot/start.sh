@@ -9,6 +9,7 @@ if [ ! $# -eq 3 ]; then
   exit 0
 fi
 
+
 CONSOLE=""
 EXTRA_CONFIG=""
 if [ $consoleOnly == true ];then
@@ -25,7 +26,7 @@ CONFIG=$3
 ###################################################
 qemu-system-arm -kernel $QBASE/kernel-qemu \
 -cpu arm1176 \
--m 1024 \
+-m $MEMORY \
 -M versatilepb \
 -no-reboot \
 -append root="/dev/sda2 panic=1 format=ext4 rootfstype=ext4 rw $CONSOLE" \

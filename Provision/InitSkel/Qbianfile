@@ -5,6 +5,8 @@ export rootpass=raspberry
 export hostname=raspberrypi-qbian
 export minibain_img_url=http://sourceforge.net/projects/minibian/files/2015-02-18-wheezy-minibian.tar.gz/download
 
+export MEMORY=1024
+
 export consoleOnly=false
 
 export defaultUpImg=default
