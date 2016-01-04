@@ -20,7 +20,7 @@ export QBASE="$BASE/qemu_boot"
 export EXE="$BASE/bin/qbian"
 export SSH="$PROVISION/ssh"
 export INJECTS="$BASE/injects"
-source $BASE/qbian.conf
+
 
 export VERSION=$version
 
@@ -33,12 +33,13 @@ if [ ! "$1" == "init" ];then
 		export QBIAN_DISK_DIR="$PWD/.Qbian/disks"
 		export SSH="$PWD/.Qbian/ssh"
 		export INJECTS="$PWD/injects"
-		source $PWD/Qbianfile
 	else
 		echo "Qbian Environment not found. Run $ $package init <package-name>"
 		exit 1
 	fi
 fi
+
+source $PWD/Qbianfile
 
 # Local scripts files
 SUDO=$(which sudo)
