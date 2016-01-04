@@ -1,0 +1,6 @@
+{ "name": "qbian-cli"
+, "version": "0.1.0"
+, "bin" : {
+    "qbian" : "./bin/qbian"
+  }
+}
