@@ -202,7 +202,7 @@ if [ "$#" -gt 0 ]; then
                         rsync -avz $BASE/Provision/InjectSkeleton/* $INJECTS/$NAME
                       fi
 										if [ "$DEFAULT_IMG" == "true" ];then
-											$(which cp) $PWD/qbian.conf $INJECTS/$NAME/root/qbian.conf && \
+											$(which cp) $PWD/Qbianfile $INJECTS/$NAME/root/qbian.conf && \
 											sed -i "s/{hostname}/$hostname/g" $INJECTS/$NAME/etc/hostname && \
 											sed -i "s/{hostname}/$hostname/g" $INJECTS/$NAME/etc/hosts
 										fi
@@ -261,13 +261,6 @@ if [ "$#" -gt 0 ]; then
 ###
                   --create-default)
                   if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
-								  # Reset the hostname & hosts file
-								  # Note : git update-index --assume-unchanged injects/default/etc/hosts
-									# TODO :: Check hhis -> needed ??
-								  # if [ -d "/.git" ];then
-									#	git checkout $BASE/injects/default/etc/hosts && \
-									#  git checkout $BASE/injects/default/etc/hostname && \
-									# fi
                       $QBIAN_TOOL_DIR/create-default
                     else
                       echo "image \"default\" already available, use $ $package --run-img default 5522"
