@@ -145,18 +145,25 @@ if [ "$#" -gt 0 ]; then
 # Display a list of images created
 ###
                 --list)
-                      echo "----------------------------------------|"
                   if [ ! -d $QBIAN_DISK_DIR/default/ ]; then
                     echo "Default image needs to be created"
                     echo "$ $package --create-default"
-                      echo "----------------------------------------|"
                     exit 2
                   fi
+										echo -e "\e[0;33m---- Disks available ----\e[0m"
                   for i in $( ls -d $QBIAN_DISK_DIR/*/ );
                     do
                       echo $(basename $i)
                       echo $(cat $QBIAN_DISK_DIR/$(basename $i)/config.qemu)
-                      echo "--------------------------------------|"
+											echo -e "\e[0;35m$ $package --run-img $(basename $i) 5522\e[0m"
+                      echo -e "\e[0;30m--------------------------------------|\e[0m"
+                    done
+										echo -e "\e[0;33m---- Injects available ----\e[0m"
+                  for i in $( ls -d $INJECTS/*/ );
+                    do
+                      echo $(basename $i)
+											echo -e "\e[0;35m$ $package --create-img $(basename $i) <config> <resize>\e[0m"
+                      echo -e "\e[0;30m--------------------------------------|\e[0m"
                     done
                   exit 0
                   ;;
