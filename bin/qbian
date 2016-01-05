@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # Directory to work in
+export VERSION=0.1.12
+
 export package=$( basename $0 );
 PWD=$(pwd)
 BASE=$(readlink -f "$0")
@@ -38,7 +40,6 @@ if [ ! "$1" == "init" ] && [ ! "$1" == "help" ] && [ ! "$1" == "--help" ] && [ !
 fi
 
 source $PWD/Qbianfile
-export VERSION=$version
 
 # Local scripts files
 SUDO=$(which sudo)

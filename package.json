@@ -1,6 +1,6 @@
 {
   "name": "qbian-cli",
-  "version": "0.1.5",
+  "version": "0.1.12",
   "description": "A cli tool-set to help create & provision minibian images. Raspberry pi",
   "main": "null",
   "scripts": {
