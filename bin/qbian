@@ -186,16 +186,13 @@ if [ "$#" -gt 0 ]; then
                   NAME=$2 # name
                   CONFIG=$3 # config
                   RESIZE=$4 # resize
-                  BASE_IMAGE=$5 # base img path
 
                   if [ ! -d $QBIAN_DISK_DIR/default ] && [ -z $DEFAULT_IMG ] ; then
                     echo "Default disk must be created before any others"
                     exit 1
                   fi
-                    if [ ! -z "$BASE_IMAGE" ]; then
-                      export BASE_IMAGE="$QBIAN_DISK_DIR/$BASE_IMAGE/2015-02-18-wheezy-minibian.img"
-										else
-											export BASE_IMAGE="$QBIAN_DISK_DIR/default/2015-02-18-wheezy-minibian.img"
+                    if [ -f "$QBIAN_DISK_DIR/default/2015-02-18-wheezy-minibian.img" ]; then
+                      export BASE_IMAGE="$QBIAN_DISK_DIR/default/2015-02-18-wheezy-minibian.img"
                     fi
                     if [ ! -d "$QBIAN_DISK_DIR/$NAME" ]; then
                       mkdir -p $QBIAN_DISK_DIR/$NAME && \

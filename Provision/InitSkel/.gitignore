@@ -1,0 +1,5 @@
+/.Qbian/disks/*
+/.Qbian/ssh/*
+!/.Qbian/disks/DISK-HERE.txt
+!/.Qbian/disks/.gitkeep
+!/.Qbian/ssh/.gitkeep
