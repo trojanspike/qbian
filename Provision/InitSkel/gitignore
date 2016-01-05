@@ -3,3 +3,7 @@
 !/.Qbian/disks/DISK-HERE.txt
 !/.Qbian/disks/.gitkeep
 !/.Qbian/ssh/.gitkeep
+
+injects/default/etc/hostname
+injects/default/etc/hosts
+injects/default/root/qbian.conf
