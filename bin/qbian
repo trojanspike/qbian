@@ -24,7 +24,7 @@ export INJECTS="$BASE/injects"
 
 
 # @ Check if -d $PWD/.Qbian
-if [ ! "$1" == "init" ];then
+if [ ! "$1" == "init" ] && [ ! "$1" == "help" ] && [ ! "$1" == "--help" ] && [ ! "$1" == "-h" ];then
 	# Quick work around for time being
 	# TODO :: Improve on
 	if [ -d "$PWD/.Qbian/disks" ] && [ -d "$PWD/.Qbian/ssh" ] && [ -f "$PWD/Qbianfile" ];then

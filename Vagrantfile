@@ -38,19 +38,19 @@ Vagrant.configure(2) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "./", "/home/vagrant"
+  config.vm.synced_folder "./", "/home/vagrant/qbian"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
+    # Customize the amount of memory on the VM:
+    vb.memory = "1024"
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -68,6 +68,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: <<-SHELL
     # http://www.unixmen.com/how-to-install-and-configure-qemu-in-ubuntu/
     sudo apt-get update
-    sudo apt-get install -y kpartx qemu git
+    sudo apt-get install -y kpartx qemu git && \
+	echo "alias qbian=\"~/qbian/bin/qbian\"" > /home/vagrant/.bashrc
   SHELL
 end
