@@ -4,7 +4,7 @@ v 0.1.12
 
 #### A cli tool-set to help create & provision minibian images
 
-* Run on linux or vagrant VM linix machine ( TO BE COMPLETE )
+* Run on linux or vagrant VM linix machine ( TO BE COMPLETE , CONTRIBUTORS WELCOME ;) )
 * Uses kpartx for mounting the *.img and editing with a provision script
 * Uses qemu for emulation of the arm image.
 * Toolset will be extended over time. i.e create new images & config with custom provisions.
@@ -14,7 +14,7 @@ v 0.1.12
 ![Splash](https://raw.githubusercontent.com/trojanspike/qbian/images/qbian-raspflash.jpg "Splash image")
 
 #### Envoironments Available:
-[ qbain cloud 9 IDE interface ](https://github.com/trojanspike/qbian/tree/dev/c9/injects/qbian-c9)
+[ qbain cloud 9 IDE interface ](https://github.com/trojanspike/qbian-cloud9)
 
 _Add the cli into your bin_
 ```bash
@@ -30,8 +30,9 @@ $ npm install qbian-cli -g
 
 ---
 ```bash
+$ qbain init MyQbain # Will create the folder structure
+$ cd MyQbain && \
 $ qbain --create-default # creates a default image, uses the injects/default folder as injects
-$ qbian --run-img default 5522 # run the default image, uses port 5522 to ssh
 # After you create and the default image you can login using
 $ ssh root@127.0.0.1 -p 5522 # OR if you have ssh configed to only allow ssh
 $ qbain --ssh "root@127.0.0.1 -p 5522"
@@ -48,11 +49,19 @@ $ qbian --export example /dev/sdc
 # Now you can run on your device
 ```
 
+```
+$ qbian --skel MyEnv # Will create the inject folder you use for provisioning the image
+$ qbian --create-img MyEnv "-redir tcp:8080::8080" 2.5G # Create the image and inject the MyEnv folder
+$ qbian --run-img MyEnv 5522 # run the MyEnv image, port 5522 to ssh
+# the provision should auto run because it was setup from the default image
+```
+
 ![Running on qemu](/../images/run-img.png?raw=true "Running on qemu")
 ![cli help](/../images/help.png?raw=true "cli help")
 
 #### _cli commands_
-* --help { 0 args } Show help
+* init { 1 arg } [ Qbain env name ] Create a qbain env folder
+* up { 0 args } Start the image defined from the Qbainfile
 * --create-default { 0 args } Create the default image
 * --create-img { 3 args } [ img-name , config , resize-img ] Create an image
 * --run-img { 2 args } [ image-name , ssh-port ] Run an image in qemu
@@ -64,6 +73,7 @@ $ qbian --export example /dev/sdc
 * --export { 2 args } [ image-name , path{ sd-card , image-path } ] Export an image
 * --import { 2 args } [ path{ sd-card , image-path } , image-name ] Import an image
 * --ssh { 1 arg } [ ssh-options ] Use ssh key.
+* --help { 0 args } Show help
 
 note :
   To use the provision image I made you just need to edit file /Provision/minibian/BASE_IMAGE_TAR_URL,
