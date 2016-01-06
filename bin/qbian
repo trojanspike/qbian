@@ -12,7 +12,8 @@ BASE=$( cd "$BASE/../" && pwd )
 QBIAN_DISK_DIR="$BASE/Provision/disks"
 
 QBIAN_MINIBIAN_DIR="$BASE/Provision/minibian"
-QBIAN_TOOL_DIR="$BASE/Provision/tools"
+QBIAN_CLI_DIR="$BASE/Provision/cli"
+QBIAN_TOOLS_DIR="$BASE/Provision/tools"
 
 # Qbian cli exports
 export BASE="$BASE"
@@ -26,20 +27,19 @@ export INJECTS="$BASE/injects"
 
 
 # @ Check if -d $PWD/.Qbian
-if [ ! "$1" == "init" ] && [ ! "$1" == "help" ] && [ ! "$1" == "--help" ] && [ ! "$1" == "-h" ];then
+if [ ! "$1" == "init" ] && [ ! "$1" == "help" ] && [ ! "$1" == "--help" ] && [ ! "$1" == "-h" ] && [ ! "$1" == "--run-sd" ];then
 	# Quick work around for time being
 	# TODO :: Improve on
 	if [ -d "$PWD/.Qbian/disks" ] && [ -d "$PWD/.Qbian/ssh" ] && [ -f "$PWD/Qbianfile" ];then
 		export QBIAN_DISK_DIR="$PWD/.Qbian/disks"
 		export SSH="$PWD/.Qbian/ssh"
 		export INJECTS="$PWD/injects"
+		source $PWD/Qbianfile
 	else
 		echo "Qbian Environment not found. Run $ $package init <package-name>"
 		exit 1
 	fi
 fi
-
-source $PWD/Qbianfile
 
 # Local scripts files
 SUDO=$(which sudo)
@@ -73,7 +73,7 @@ if [ "$#" -gt 0 ]; then
                 echo "$package --skel <NAME>"
 
                 echo -e "\e[0;36mCreate a new minibian image\e[0m"
-                echo "$package --create-img <NAME> <CONFIG> <RESIZE:{optional}>"
+                echo "$package --create-img <NAME> <CONFIG> <RESIZE:{optional}> <IMAGE:{optional}>"
 
                 echo -e "\e[0;36mRemove an images\e[0m"
                 echo "$package --remove <NAME> <IMG_NAME> # remove an image"
@@ -194,6 +194,7 @@ if [ "$#" -gt 0 ]; then
                   NAME=$2 # name
                   CONFIG=$3 # config
                   RESIZE=$4 # resize
+									IMAGE=$5 # Img to use
 
                   if [ ! -d $QBIAN_DISK_DIR/default ] && [ -z $DEFAULT_IMG ] ; then
                     echo "Default disk must be created before any others"
@@ -202,6 +203,9 @@ if [ "$#" -gt 0 ]; then
                     if [ -f "$QBIAN_DISK_DIR/default/2015-02-18-wheezy-minibian.img" ]; then
                       export BASE_IMAGE="$QBIAN_DISK_DIR/default/2015-02-18-wheezy-minibian.img"
                     fi
+										if [ ! -z "$IMAGE" ] && [ -f "$QBIAN_DISK_DIR/$IMAGE/2015-02-18-wheezy-minibian.img" ];then
+											export BASE_IMAGE="$QBIAN_DISK_DIR/$IMAGE/2015-02-18-wheezy-minibian.img"
+										fi
                     if [ ! -d "$QBIAN_DISK_DIR/$NAME" ]; then
                       mkdir -p $QBIAN_DISK_DIR/$NAME && \
                       if [ ! -d $INJECTS/$NAME ]; then
@@ -220,7 +224,7 @@ if [ "$#" -gt 0 ]; then
                     fi
                   else
                     echo "Not enough Params"
-                    echo "$package --create-img <NAME> <CONFIG> <RESIZE:{optional}>"
+                    echo "$package --create-img <NAME> <CONFIG> <RESIZE:{optional}> <IMAGE:{optional}>"
                     echo "root/Provision.sh is also required"
                   fi
                   exit 0
@@ -267,7 +271,7 @@ if [ "$#" -gt 0 ]; then
 ###
             --create-default)
             if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
-                $QBIAN_TOOL_DIR/create-default
+                $QBIAN_CLI_DIR/create-default
               else
                 echo "image \"default\" already available, use $ $package --run-img default 5522"
               fi
@@ -280,7 +284,7 @@ if [ "$#" -gt 0 ]; then
 ###
             --create-sd)
               if test $# -eq 3; then
-								$QBIAN_TOOL_DIR/create-sd $2 $3
+								$QBIAN_CLI_DIR/create-sd $2 $3
               else
                 echo "Not enough Params"
 					  		echo "$package --create-sd <dev-img> <skel>"
@@ -353,8 +357,8 @@ if [ "$#" -gt 0 ]; then
             ;;
           *)
 				# target file : v0.1.* to use this strat
-					if [ -f $QBIAN_TOOL_DIR/$1 ];then
-						$QBIAN_TOOL_DIR/$1 $@
+					if [ -f $QBIAN_CLI_DIR/$1 ];then
+						$QBIAN_CLI_DIR/$1 $@
 					else
               $BASE/bin/qbian --help && exit 0
 					fi
