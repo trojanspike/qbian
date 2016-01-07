@@ -7,6 +7,7 @@ export minibain_img_url=http://sourceforge.net/projects/minibian/files/2015-02-1
 
 export memory=512
 export consoleOnly=false
+export useMySSH=true
 
 export defaultUpImg=default
 export defaultUpPort=5522
