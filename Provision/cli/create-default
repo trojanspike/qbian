@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
 ssh-keygen -t rsa -f $SSH/id_rsa -N "" -C "$user@$hostname" && \
-# Q : hostname > /etc/hostname & other hosts in /injects/skel
-# Q : default user :: > USER@HOSTNAME
 cat $SSH/id_rsa.pub > $SSH/authorized_keys && \
-if [ -f ~/.ssh/id_rsa.pub ];then
+if [ -f ~/.ssh/id_rsa.pub ] && [ "$useMySSH" == true ];then
   # insert the home ssh public key
   cat ~/.ssh/id_rsa.pub >> $SSH/authorized_keys
 fi
