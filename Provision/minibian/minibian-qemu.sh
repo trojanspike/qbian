@@ -38,6 +38,7 @@ function getMinibian(){
 }
 
 function ensureUmount(){
+# TODO -> mount | grep {for mapper/loop* & umount if found
 mount | grep "/dev/mapper/loop0p1 on" > /dev/null
 if [ $? -eq 0 ]
 then
