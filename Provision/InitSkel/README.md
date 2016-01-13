@@ -1,10 +1,28 @@
 # qbian
 
+Version : 0.0.0
+
 ### Install the qbian cli
 [ qbain cli ](https://github.com/trojanspike/qbian)
 
-### Install {PACKAGE_NAME} [ how to , info ]
+### How to build
+-
+-
+-
+-
 
+```bash
+$ 
+$ 
+$ 
+$ 
+$ 
+```
 
-### Image download
-You can supply a link to the already configured image 
+### Download Links
+* [ Pre-built image , not yet provisioned ](https://@link)
+* [ Built image , provisioned ](https://@link)
+
+### System details
+* User : ****
+* Pass : ****
