@@ -1,6 +1,6 @@
 # (qbian) qemu + minibian :: qbian
 
-v 0.1.15
+v 0.1.18
 
 #### A cli tool-set to help create & provision minibian images
 
