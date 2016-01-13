@@ -18,3 +18,6 @@ injects/default/root/qbian.conf
 .bash_history
 .cache/
 .viminfo
+
+Workspace/*
+!Workspace/.gitkeep
