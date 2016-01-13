@@ -76,7 +76,7 @@ function doProvision(){
 	sudo rsync -avz $INJECT/* $QBIAN_DISK_DIR/$NAME/root_mount/ && \
 	## No need to inject the ssh keys	
 	# sudo rsync -avz $SSH/* $QBIAN_DISK_DIR/$NAME/root_mount/etc/skel/.ssh/ && \
-	# sudo rsync -avz $SSH/* $QBIAN_DISK_DIR/$NAME/root_mount/root/.ssh/ && \
+	sudo rsync -avz $SSH/* $QBIAN_DISK_DIR/$NAME/root_mount/root/.ssh/ && \
 	##########	
 	# Clear out the new image ssh keys , this might be an import from a previously created image
 	# i.e $ qbian --create-img docker "-redir tcp:1374::1374" ~/path/to/inject/ 400M default
