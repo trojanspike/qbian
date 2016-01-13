@@ -7,6 +7,13 @@ export minibain_img_url=http://sourceforge.net/projects/minibian/files/2015-02-1
 
 export memory=512
 export consoleOnly=false
+
+# Qbain config for vagrant env
+if [ "$USER" == "vagrant" ];then
+  export memory=256
+  export consoleOnly=true
+fi
+
 export useMySSH=true
 
 export defaultUpImg=default
