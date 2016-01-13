@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+echo "Version : $VERSION"
+echo -e "$package - tool-set for running minibian with qemu & provisioning images"
+echo -e "$package <application> [arguments]\n"
+
+echo "options:"
+echo -e "\e[0;36mqbian version\e[0m"
+echo "$package --version"
+
+echo -e "\e[0;36mrun an image with qemu\e[0m"
+echo "$package --run-img <NAME> <SSH_PORT>"
+
+echo -e "\e[0;36mrun an sd with qemu\e[0m"
+echo "$package --run-sd <DEVICE> <SSH> <CONFIG>"
+
+echo -e "\e[0;36mList available images\e[0m"
+echo "$package --list null, \"list available images\""
+
+echo -e "\e[0;36mCreate a new skel\e[0m"
+echo "$package --skel <NAME>"
+
+echo -e "\e[0;36mCreate a new minibian image\e[0m"
+echo "$package --create-img <NAME> <CONFIG> <RESIZE:{optional}> <IMAGE:{optional}>"
+
+echo -e "\e[0;36mRemove an images\e[0m"
+echo "$package --remove <NAME> <IMG_NAME> # remove an image"
+
+echo -e "\e[0;36mCreate Default image, this should be done first\e[0m"
+echo "$package --create-default null, \"Create the defalult image\""
+
+echo -e "\e[0;36mExport image to sd or image\e[0m"
+echo "$package --export <NAME> <PATH|DEVICE>"
+
+echo -e "\e[0;36mImport from sd or image\e[0m"
+echo "$package --import <NAME|DEVICE> <CONFIG>"
+
+echo -e "\e[0;36mRemove all images\e[0m"
+echo "$package --clear null, delete images"
+
+echo -e "\e[0;36mSSH into image\e[0m"
+echo "$package --ssh <SSH_OPTIONS>, ssh using the ssh key"
