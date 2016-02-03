@@ -1,5 +1,7 @@
 # (qbian) qemu + minibian :: qbian
 
+[![Join the chat at https://gitter.im/trojanspike/qbian](https://badges.gitter.im/trojanspike/qbian.svg)](https://gitter.im/trojanspike/qbian?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 v 0.1.18
 
 #### A cli tool-set to help create & provision minibian images
