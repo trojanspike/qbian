@@ -231,7 +231,10 @@ if [ "$#" -gt 0 ]; then
 ###
             --create-default)
             if [ ! -d "$QBIAN_DISK_DIR/default" ]; then
-                $QBIAN_CLI_DIR/create-default
+                $QBIAN_CLI_DIR/create-default && \
+				# assume unchanged for git
+				git update-index --assume-unchanged $INJECTS/default/etc/hostname && \
+				git update-index --assume-unchanged $INJECTS/default/etc/hosts
               else
                 echo "image \"default\" already available, use $ $package --run-img default 5522"
               fi
