@@ -4,7 +4,8 @@ FOLDER=$2
 
 function create(){
   mkdir $PWD/$FOLDER && rsync -avz $BASE/Provision/InitSkel/* $PWD/$FOLDER && \
-  mv $PWD/$FOLDER/Qbian $PWD/$FOLDER/.Qbian && mv $PWD/$FOLDER/gitignore $PWD/$FOLDER/.gitignore
+  mv $PWD/$FOLDER/Qbian $PWD/$FOLDER/.Qbian && mv $PWD/$FOLDER/gitignore $PWD/$FOLDER/.gitignore && \
+  cd $PWD/$FOLDER && git init --quiet && git add . && git commit -m "qbian $FOLDER init"
   exit 0
 }
 
