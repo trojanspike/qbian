@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+NAME=$(cat /root/release)
+if [ ! -d /qbianProvision ]; then
+  mkdir /qbianProvision
+fi
+if [ -d /sys/class/gpio/ ]; then
+  if [ ! -f /qbianProvision/$NAME-device ]; then
+    /root/Provision.sh true && echo $(date +"%s") > /qbianProvision/$NAME-device
+  else
+    echo "$NAME provisioned from device $(cat /qbianProvision/$NAME-device)"
+  fi
+else
+  if [ ! -f /qbianProvision/$NAME-qemu ]; then
+    /root/Provision.sh false && echo $(date +"%s") > /qbianProvision/$NAME-qemu
+  else
+    echo "$NAME provisioned from qemu $(cat /qbianProvision/$NAME-qemu)"
+  fi
+fi
+
