@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+SSH_ROOT_FILE=$SSH/id_rsa.pub
+
+echo $SSH
