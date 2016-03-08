@@ -1,6 +1,6 @@
 # (qbian) qemu + minibian :: qbian
 
-v 0.1.21
+v 0.2.5
 
 [![Gitter](https://badges.gitter.im/trojanspike/qbian.svg)](https://gitter.im/trojanspike/qbian?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge)
 

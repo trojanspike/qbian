@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Directory to work in
-export VERSION=0.1.21
+export VERSION=0.2.5
 
 export package=$( basename $0 );
 PWD=$(pwd)
